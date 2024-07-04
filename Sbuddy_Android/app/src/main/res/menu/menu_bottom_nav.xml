@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/fragment_home"
+        android:title="홈"
+        android:iconTintMode="add"
+        android:iconTint="#8274FF"
+        android:icon="@drawable/outline_home_24"/>
+    <item
+        android:id="@+id/fragment_search"
+        android:title="검색"
+        android:iconTintMode="add"
+        android:iconTint="#8274FF"
+        android:icon="@drawable/outline_search_24"/>
+    <item
+        android:id="@+id/fragment_favorite"
+        android:title="채팅"
+        android:iconTintMode="add"
+        android:iconTint="#8274FF"
+        android:icon="@drawable/baseline_chat_bubble_outline_24"/>
+    <item
+        android:id="@+id/fragment_settings"
+        android:title="설정"
+        android:iconTintMode="add"
+        android:iconTint="#8274FF"
+        android:icon="@drawable/outline_person_outline_24"/>
+</menu>
