@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.activity.ComponentActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.sbuddy.sbdApp.login.LoginActivity
 
 class MainActivity : ComponentActivity() {
 

@@ -2,6 +2,7 @@ package com.sbuddy.sbdApp.http
 
 import com.google.gson.annotations.SerializedName
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.FieldMap
 import retrofit2.http.FormUrlEncoded
@@ -12,17 +13,17 @@ interface RetrofitService {
 
     @POST("api/v1/login")
     @Headers("Content-Type: application/json")
-    fun login(
+    suspend fun login(
         @Body params: User
-    ): Call<Object>
+    ): Response<String>
 
 
     @POST("api/v1/post/popular/list")
     @Headers("Content-Type: application/json")
 //    @FormUrlEncoded
-    fun list(
+    suspend fun list(
         @FieldMap params: Map<String, String>
-    ): Call<Object>
+    ): Response<String>
 
 }
 
