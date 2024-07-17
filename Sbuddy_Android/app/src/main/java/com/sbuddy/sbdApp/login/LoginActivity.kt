@@ -39,22 +39,15 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun setObserve(){
-        var id : String = ""
-        var pwd : String = ""
-        loginViewModel.id.observe(this){
-            id = it
-        }
-        loginViewModel.password.observe(this){
-            pwd = it
-        }
         loginViewModel.requestPostLogin.observe(this){
             if(it){
-                loginViewModel.postLogin(User(id, pwd))
+                loginViewModel.postLogin(binding.id.text.toString(), binding.password.text.toString())
             }
         }
         loginViewModel.showMainActivity.observe(this){
             if(it){
                 // 메인페이지 이동
+                println("showMainAcrtivity.observe : ${it}")
                 startActivity(Intent(this, MainActivity::class.java))
 
             }

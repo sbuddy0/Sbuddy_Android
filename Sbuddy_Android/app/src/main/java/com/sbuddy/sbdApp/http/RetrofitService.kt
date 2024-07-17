@@ -15,7 +15,7 @@ interface RetrofitService {
     @Headers("Content-Type: application/json")
     suspend fun login(
         @Body params: User
-    ): Response<String>
+    ): Response<Any>
 
 
     @POST("api/v1/post/popular/list")
@@ -23,7 +23,7 @@ interface RetrofitService {
 //    @FormUrlEncoded
     suspend fun list(
         @FieldMap params: Map<String, String>
-    ): Response<String>
+    ): Response<Any>
 
 }
 
