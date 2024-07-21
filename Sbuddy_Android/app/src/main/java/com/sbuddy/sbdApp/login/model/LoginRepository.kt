@@ -1,4 +1,4 @@
-package com.sbuddy.sbdApp.login
+package com.sbuddy.sbdApp.login.model
 
 import com.sbuddy.sbdApp.http.RetrofitService
 import com.sbuddy.sbdApp.http.SbuddyRetrofitService

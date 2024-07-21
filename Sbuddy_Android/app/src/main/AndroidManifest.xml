@@ -16,7 +16,16 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".login.FindPwdActivity"
+            android:name=".signup.view.SignUpActivity_03"
+            android:exported="false" />
+        <activity
+            android:name=".signup.view.SignUpActivity_02"
+            android:exported="false" />
+        <activity
+            android:name=".signup.view.SignUpActivity_01"
+            android:exported="false" />
+        <activity
+            android:name=".login.view.FindPwdActivity"
             android:exported="false" />
         <activity
             android:name=".WriteActivity"
@@ -25,7 +34,7 @@
             android:name=".LankSearchActivity"
             android:exported="false" />
         <activity
-            android:name=".login.LoginActivity"
+            android:name=".login.view.LoginActivity"
             android:exported="false" />
         <activity
             android:name=".SplashActivity"

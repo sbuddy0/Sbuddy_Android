@@ -1,31 +1,20 @@
-package com.sbuddy.sbdApp.login
+package com.sbuddy.sbdApp.login.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.widget.Button
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.sbuddy.sbdApp.MainActivity
 import com.sbuddy.sbdApp.R
 import com.sbuddy.sbdApp.databinding.ActivityLoginBinding
-import com.sbuddy.sbdApp.http.RetrofitService
-import com.sbuddy.sbdApp.http.SbuddyRetrofitService
-import com.sbuddy.sbdApp.http.User
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import com.sbuddy.sbdApp.login.viewmodel.LoginViewModel
+import com.sbuddy.sbdApp.signup.view.SignUpActivity_01
 
 
 class LoginActivity : AppCompatActivity() {
-    lateinit var binding : ActivityLoginBinding
-    lateinit var loginViewModel: LoginViewModel
+    private lateinit var binding : ActivityLoginBinding
+    private lateinit var loginViewModel: LoginViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,6 +41,12 @@ class LoginActivity : AppCompatActivity() {
 
             }
         }
+
+        loginViewModel.showSignupActivity.observe(this){
+            if(it){
+                startActivity(Intent(this, SignUpActivity_01::class.java))
+            }
+        }
         loginViewModel.showFindPwActivity.observe(this){
             if(it){
                 startActivity(Intent(this, FindPwdActivity::class.java))
@@ -63,6 +58,11 @@ class LoginActivity : AppCompatActivity() {
     fun requestLogin(){
         println("requestLogin")
         loginViewModel.requestPostLogin.value = true
+    }
+
+    fun signUp(){
+        println("signUp")
+        loginViewModel.showSignupActivity.value = true
     }
     fun findPwd(){
         println("findPwd")

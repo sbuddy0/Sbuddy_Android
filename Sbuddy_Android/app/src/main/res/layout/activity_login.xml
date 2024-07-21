@@ -4,10 +4,10 @@
     <data>
         <variable
             name="viewModel"
-            type="com.sbuddy.sbdApp.login.LoginViewModel" />
+            type="com.sbuddy.sbdApp.login.viewmodel.LoginViewModel" />
         <variable
             name="activity"
-            type="com.sbuddy.sbdApp.login.LoginActivity" />
+            type="com.sbuddy.sbdApp.login.view.LoginActivity" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -26,7 +26,7 @@
             <ImageView
                 android:id="@+id/before_btn"
                 android:layout_width="30dp"
-                android:layout_height="30dp"
+                 android:layout_height="30dp"
                 android:src="?android:attr/actionModeCloseDrawable"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -132,7 +132,8 @@
                 android:background="@drawable/button_rounded_corner_rectangle_gray"
                 android:text="회원가입"
                 android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@id/login_btn" />
+                app:layout_constraintTop_toBottomOf="@id/login_btn"
+                android:onClick="@{() -> activity.signUp()}"/>
 
             <TextView
                 android:id="@+id/pwd_find_out"
