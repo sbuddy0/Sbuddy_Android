@@ -10,6 +10,7 @@ import com.sbuddy.sbdApp.R
 import com.sbuddy.sbdApp.databinding.ActivityLoginBinding
 import com.sbuddy.sbdApp.login.viewmodel.LoginViewModel
 import com.sbuddy.sbdApp.signup.view.SignUpActivity_01
+import com.sbuddy.sbdApp.util.ToastMessage
 
 
 class LoginActivity : AppCompatActivity() {
@@ -19,18 +20,25 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding =  DataBindingUtil.setContentView(this, R.layout.activity_login)
         loginViewModel = ViewModelProvider(this)[LoginViewModel::class.java]
+        binding.viewModel = loginViewModel
         binding.lifecycleOwner = this
         binding.activity = this
 
+        getEmail()
         setObserve()
+    }
+
+    fun getEmail(){
+        loginViewModel.id.value = this.intent.extras?.getString("email")
     }
 
     fun setObserve(){
         loginViewModel.requestPostLogin.observe(this){
             if(it){
-                loginViewModel.postLogin(binding.id.text.toString(), binding.password.text.toString())
+                loginViewModel.postLogin()
             }
         }
         loginViewModel.showMainActivity.observe(this){
@@ -50,6 +58,12 @@ class LoginActivity : AppCompatActivity() {
         loginViewModel.showFindPwActivity.observe(this){
             if(it){
                 startActivity(Intent(this, FindPwdActivity::class.java))
+            }
+        }
+
+        loginViewModel.showToast.observe(this){
+            if(it){
+                ToastMessage.show(this, "아이디와 비밀번호를 확인해 주세요.")
             }
         }
 

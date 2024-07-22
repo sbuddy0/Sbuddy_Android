@@ -25,22 +25,50 @@ interface RetrofitService {
         @Body params: Email
     ): Response<Any>
 
+    @POST("api/v1/join/email/auth")
+    @Headers("Content-Type: application/json")
+    suspend fun authEmailNumber(
+        @Body params: EmailAuth
+    ):Response<Any>
+
+    @POST("api/v1/join")
+    @Headers("Content-Type: application/json")
+    suspend fun signUp(
+        @Body params: SignUp
+    ):Response<Any>
 
     @POST("api/v1/post/popular/list")
     @Headers("Content-Type: application/json")
-//    @FormUrlEncoded
     suspend fun list(
         @FieldMap params: Map<String, String>
     ): Response<Any>
 
+
 }
 
+// 로그인 유저
 data class User(
     @SerializedName(value = "id") var id: String,
     @SerializedName(value = "password") var password: String
 )
 
+// 이메일
 data class Email(
     @SerializedName(value = "email") var email: String
 )
+
+// 이메일 + 이메일 인증번호
+data class EmailAuth(
+    @SerializedName(value = "auth_code") var authCode: String,
+    @SerializedName(value = "email") var email: String
+)
+
+// 회원가입
+data class SignUp(
+    @SerializedName(value = "username") var username: String,
+    @SerializedName(value = "email") var email: String,
+    @SerializedName(value = "password") var password: String
+)
+
+
 

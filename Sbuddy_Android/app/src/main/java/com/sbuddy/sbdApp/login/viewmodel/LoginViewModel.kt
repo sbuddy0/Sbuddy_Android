@@ -23,21 +23,31 @@ class LoginViewModel(application: Application) : AndroidViewModel(application){
     var showSignupActivity : MutableLiveData<Boolean> = MutableLiveData(false)
     var showFindPwActivity : MutableLiveData<Boolean> = MutableLiveData(false)
 
+    var showToast : MutableLiveData<Boolean> = MutableLiveData(false)
 
 
     // Response
-    fun postLogin(id: String, pwd: String){
+    fun postLogin(){
         viewModelScope.launch {
-            val response = repository.postLogin(User(id, pwd))
+            try {
+                val response = repository.postLogin(User(id.value!!, password.value!!))
 
-            if(response.isSuccessful){
-                showMainActivity.value = true // main에 상태를 알려줌
-                val map = JsonParser.getJsonData(response.body().toString())
-                val data = map.get("data") as HashMap<*, *>
-                ShareData.setStringData(getApplication(), ShareData.LOGIN, ShareData.LOGIN_SESSION, data.get("token") as String)
-            }else{
-                Log.d("sbuddyy", "로그인 실패 : ")
+                if(response.isSuccessful){
+                    val map = JsonParser.getJsonData(response.body().toString())
+                    val code = map.get("code")
+
+                    if(code == "OK"){
+                        showMainActivity.value = true // main에 상태를 알려줌
+                        val data = map.get("data") as HashMap<*, *>
+                        ShareData.setStringData(getApplication(), ShareData.LOGIN, ShareData.LOGIN_SESSION, data.get("token") as String)
+                        return@launch
+                    }
+                }
+                showToast.value = true
+            }catch (e: Exception){
+                showToast.value = true
             }
+
         }
     }
 
