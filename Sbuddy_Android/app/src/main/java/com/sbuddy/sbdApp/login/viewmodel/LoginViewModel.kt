@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.sbuddy.sbdApp.http.Email
 import com.sbuddy.sbdApp.http.User
 import com.sbuddy.sbdApp.login.model.LoginRepository
 import com.sbuddy.sbdApp.util.JsonParser
@@ -18,13 +19,8 @@ class LoginViewModel(application: Application) : AndroidViewModel(application){
     var id : MutableLiveData<String> = MutableLiveData("")
     var password : MutableLiveData<String> = MutableLiveData("")
 
-    var requestPostLogin : MutableLiveData<Boolean> = MutableLiveData(false)
-    var showMainActivity : MutableLiveData<Boolean> = MutableLiveData(false)
-    var showSignupActivity : MutableLiveData<Boolean> = MutableLiveData(false)
-    var showFindPwActivity : MutableLiveData<Boolean> = MutableLiveData(false)
-
-    var showToast : MutableLiveData<Boolean> = MutableLiveData(false)
-
+    private var _showNextActivity : MutableLiveData<Boolean> = MutableLiveData(false)
+    private var _showToast : MutableLiveData<Boolean> = MutableLiveData(false)
 
     // Response
     fun postLogin(){
@@ -37,19 +33,40 @@ class LoginViewModel(application: Application) : AndroidViewModel(application){
                     val code = map.get("code")
 
                     if(code == "OK"){
-                        showMainActivity.value = true // main에 상태를 알려줌
+                        showNextActivity.value = true // main에 상태를 알려줌
                         val data = map.get("data") as HashMap<*, *>
                         ShareData.setStringData(getApplication(), ShareData.LOGIN, ShareData.LOGIN_SESSION, data.get("token") as String)
                         return@launch
                     }
+                    _showToast.value = true
                 }
-                showToast.value = true
             }catch (e: Exception){
-                showToast.value = true
+                _showToast.value = true
             }
 
         }
     }
 
+    fun postFindPwd() {
+        viewModelScope.launch {
+            val response = repository.postFindPwd(Email(id.value!!))
+            if(response.isSuccessful){
+                val map = JsonParser.getJsonData(response.body().toString())
+                val code = map.get("code")
 
+                if(code == "OK"){
+                    showNextActivity.value = true // main에 상태를 알려줌
+                    return@launch
+                }
+                _showToast.value = true
+            }
+        }
+    }
+
+    // viewmodel의 요소를 ui가 observe할 수 있게 열어줌
+    val showNextActivity : MutableLiveData<Boolean>
+        get() = _showNextActivity
+
+    val showToast : MutableLiveData<Boolean>
+        get() = _showToast
 }

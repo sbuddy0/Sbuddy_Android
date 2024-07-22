@@ -19,13 +19,8 @@ class SignUpViewModel(application: Application) : AndroidViewModel(application) 
     var userName : MutableLiveData<String> = MutableLiveData("")
     var password : MutableLiveData<String> = MutableLiveData("")
 
-    var showBeforeActivity : MutableLiveData<Boolean> = MutableLiveData(false)
-    var showNextActivity : MutableLiveData<Boolean> = MutableLiveData(false)
-    var showToast : MutableLiveData<Boolean> = MutableLiveData(false)
-
-    var requestPostAuthNumber : MutableLiveData<Boolean> = MutableLiveData(false)
-    var requestPostAuthEmail : MutableLiveData<Boolean> = MutableLiveData(false)
-    var requestSignUp : MutableLiveData<Boolean> = MutableLiveData(false)
+    private var _showNextActivity : MutableLiveData<Boolean> = MutableLiveData(false)
+    private var _showToast : MutableLiveData<Boolean> = MutableLiveData(false)
 
     // request
     fun postAuthEmail(){
@@ -78,4 +73,11 @@ class SignUpViewModel(application: Application) : AndroidViewModel(application) 
             showToast.value = true
         }
     }
+
+    val showNextActivity : MutableLiveData<Boolean>
+        get() = _showNextActivity
+
+    val showToast : MutableLiveData<Boolean>
+        get() = _showToast
+
 }

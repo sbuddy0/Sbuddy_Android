@@ -37,6 +37,12 @@ interface RetrofitService {
         @Body params: SignUp
     ):Response<Any>
 
+    @POST("api/v1/member/find/password")
+    @Headers("Content-Type: application/json")
+    suspend fun findPwd(
+        @Body params: Email
+    ): Response<Any>
+
     @POST("api/v1/post/popular/list")
     @Headers("Content-Type: application/json")
     suspend fun list(

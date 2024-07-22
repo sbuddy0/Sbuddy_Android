@@ -27,15 +27,11 @@ class SignUpActivity_02 : AppCompatActivity() {
     }
 
     fun setObserve() {
-        signUpViewModel.showBeforeActivity.observe(this){
+        signUpViewModel.showNextActivity.observe(this){
             if(it){
-                startActivity(Intent(this, SignUpActivity_01::class.java))
-            }
-        }
-
-        signUpViewModel.requestPostAuthNumber.observe(this){
-            if(it){
-                signUpViewModel.postAuthNumber()
+                val intent = Intent(this, SignUpActivity_03::class.java)
+                intent.putExtra("email", signUpViewModel.email.value)
+                startActivity(intent)
             }
         }
 
@@ -44,17 +40,9 @@ class SignUpActivity_02 : AppCompatActivity() {
                 ToastMessage.show(this, "인증번호를 다시 입력하세요.")
             }
         }
-
-        signUpViewModel.showNextActivity.observe(this){
-            if(it){
-                val intent = Intent(this, SignUpActivity_03::class.java)
-                intent.putExtra("email", signUpViewModel.email.value!!)
-                startActivity(intent)
-            }
-        }
     }
     fun requestAuthNumber(){
-        signUpViewModel.requestPostAuthNumber.value = true
+        signUpViewModel.postAuthNumber()
     }
 
     fun getEmail(){
@@ -62,6 +50,6 @@ class SignUpActivity_02 : AppCompatActivity() {
     }
 
     fun goBackStep(){
-        signUpViewModel.showBeforeActivity.value = true
+        startActivity(Intent(this, SignUpActivity_01::class.java))
     }
 }

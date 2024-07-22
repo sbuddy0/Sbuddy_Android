@@ -15,7 +15,6 @@ import com.sbuddy.sbdApp.util.ToastMessage
 class SignUpActivity_03 : AppCompatActivity() {
     private lateinit var binding : ActivitySignUp03Binding
     private lateinit var signUpViewModel: SignUpViewModel
-    private lateinit var email: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -30,19 +29,6 @@ class SignUpActivity_03 : AppCompatActivity() {
     }
 
     fun setObserve(){
-        signUpViewModel.showBeforeActivity.observe(this){
-            if(it){
-                val intent = Intent(this, SignUpActivity_02::class.java)
-                intent.putExtra("email", signUpViewModel.email.value)
-                startActivity(intent)
-            }
-        }
-
-        signUpViewModel.requestSignUp.observe(this){
-            if(it){
-                signUpViewModel.postSignUp()
-            }
-        }
 
         signUpViewModel.showNextActivity.observe(this){
             if(it){
@@ -57,18 +43,21 @@ class SignUpActivity_03 : AppCompatActivity() {
                 ToastMessage.show(this, "다시 입력해 주세요.")
             }
         }
+
+
     }
 
     fun getEmail(){
         signUpViewModel.email.value = this.intent.extras?.getString("email")!!
-        Log.w("sbuddyy", "signUpViewModel.email.value : " + signUpViewModel.email.value)
     }
 
     fun goBackStep(){
-        signUpViewModel.showBeforeActivity.value = true
+        val intent = Intent(this, SignUpActivity_02::class.java)
+        intent.putExtra("email", signUpViewModel.email.value)
+        startActivity(intent)
     }
 
     fun requestSignUp(){
-        signUpViewModel.requestSignUp.value = true
+        signUpViewModel.postSignUp()
     }
 }

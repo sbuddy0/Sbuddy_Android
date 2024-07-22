@@ -29,17 +29,6 @@ class SignUpActivity_01 : AppCompatActivity() {
     }
 
     fun setObserve(){
-        signUpViewModel.showBeforeActivity.observe(this){
-            if(it){
-                startActivity(Intent(this, LoginActivity::class.java))
-            }
-        }
-
-        signUpViewModel.requestPostAuthEmail.observe(this){
-            if(it){
-                signUpViewModel.postAuthEmail()
-            }
-        }
         signUpViewModel.showNextActivity.observe(this){
             if(it){
                 val intent = Intent(this, SignUpActivity_02::class.java)
@@ -51,16 +40,15 @@ class SignUpActivity_01 : AppCompatActivity() {
         signUpViewModel.showToast.observe(this){
             if(it){
                 ToastMessage.show(this, "이메일을 확인해 주세요")
-                signUpViewModel.showToast.value = false
             }
         }
     }
 
     fun goBeforeStep(){
-        signUpViewModel.showBeforeActivity.value = true
+        startActivity(Intent(this, LoginActivity::class.java))
     }
 
     fun requestAuthEmail(){
-        signUpViewModel.requestPostAuthEmail.value = true
+        signUpViewModel.postAuthEmail()
     }
 }

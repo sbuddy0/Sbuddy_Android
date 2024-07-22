@@ -32,32 +32,17 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun getEmail(){
-        loginViewModel.id.value = this.intent.extras?.getString("email")
+        if(intent.extras?.getString("email") != null){
+            loginViewModel.id.value = intent.extras?.getString("email")!!
+        }
     }
 
     fun setObserve(){
-        loginViewModel.requestPostLogin.observe(this){
-            if(it){
-                loginViewModel.postLogin()
-            }
-        }
-        loginViewModel.showMainActivity.observe(this){
+        // 다음 화면
+        loginViewModel.showNextActivity.observe(this){
             if(it){
                 // 메인페이지 이동
-                println("showMainAcrtivity.observe : ${it}")
                 startActivity(Intent(this, MainActivity::class.java))
-
-            }
-        }
-
-        loginViewModel.showSignupActivity.observe(this){
-            if(it){
-                startActivity(Intent(this, SignUpActivity_01::class.java))
-            }
-        }
-        loginViewModel.showFindPwActivity.observe(this){
-            if(it){
-                startActivity(Intent(this, FindPwdActivity::class.java))
             }
         }
 
@@ -66,21 +51,17 @@ class LoginActivity : AppCompatActivity() {
                 ToastMessage.show(this, "아이디와 비밀번호를 확인해 주세요.")
             }
         }
-
     }
 
     fun requestLogin(){
-        println("requestLogin")
-        loginViewModel.requestPostLogin.value = true
+        loginViewModel.postLogin()
     }
 
     fun signUp(){
-        println("signUp")
-        loginViewModel.showSignupActivity.value = true
+        startActivity(Intent(this, SignUpActivity_01::class.java))
     }
     fun findPwd(){
-        println("findPwd")
-        loginViewModel.showFindPwActivity.value = true
+        startActivity(Intent(this, FindPwdActivity::class.java))
     }
 
 }
