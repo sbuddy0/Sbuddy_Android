@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import com.sbuddy.sbdApp.login.view.LoginActivity
+import com.sbuddy.sbdApp.post.view.MainActivity
 import com.sbuddy.sbdApp.util.MetaData
 import com.sbuddy.sbdApp.util.ShareData
 

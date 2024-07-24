@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-import com.sbuddy.sbdApp.MainActivity
+import com.sbuddy.sbdApp.post.view.MainActivity
 import com.sbuddy.sbdApp.R
 import com.sbuddy.sbdApp.databinding.ActivityLoginBinding
 import com.sbuddy.sbdApp.login.viewmodel.LoginViewModel
