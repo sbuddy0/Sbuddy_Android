@@ -1,6 +1,7 @@
 package com.sbuddy.sbdApp.http
 
 import com.google.gson.annotations.SerializedName
+import com.sbuddy.sbdApp.post.model.PostResponse
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
@@ -43,6 +44,13 @@ interface RetrofitService {
         @Body params: Email
     ): Response<Any>
 
+
+    @POST("/api/v1/post/list")
+    @Headers("Content-Type: application/json")
+    suspend fun getList(
+        @Body params: Search
+    ):Response<PostResponse>
+
     @POST("api/v1/post/popular/list")
     @Headers("Content-Type: application/json")
     suspend fun list(
@@ -75,6 +83,12 @@ data class SignUp(
     @SerializedName(value = "email") var email: String,
     @SerializedName(value = "password") var password: String
 )
+
+//
+data class Search(
+    @SerializedName(value = "search") var search: String
+)
+
 
 
 

@@ -12,25 +12,24 @@ import com.sbuddy.sbdApp.post.viewmodel.PostViewModel
 
 class MainActivity : FragmentActivity() {
 
-    private lateinit var binding : ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
     private lateinit var postViewModel: PostViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-    binding =  DataBindingUtil.setContentView(this, R.layout.activity_main)
-    postViewModel = ViewModelProvider(this)[PostViewModel::class.java]
-    binding.viewModel = postViewModel
-    binding.lifecycleOwner = this
-    binding.activity = this
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        postViewModel = ViewModelProvider(this)[PostViewModel::class.java]
+        binding.viewModel = postViewModel
+        binding.lifecycleOwner = this
+        binding.activity = this
 
-    setViewPager()
-    setTabLayout()
-
+        setViewPager()
+        setTabLayout()
     }
 
-    fun setTabLayout(){
-        binding.mainTab.addOnTabSelectedListener(object:TabLayout.OnTabSelectedListener{
+    fun setTabLayout() {
+        binding.mainTab.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 binding.mainPager.setCurrentItem(tab!!.position)
             }
@@ -45,14 +44,13 @@ class MainActivity : FragmentActivity() {
 
     }
 
-    fun setViewPager(){
+    fun setViewPager() {
         binding.mainPager.adapter = MainPagerAdapter(this, 4)
-        binding.mainPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
+        binding.mainPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 binding.mainTab.getTabAt(position)?.select()
             }
         })
     }
-
 }
 
