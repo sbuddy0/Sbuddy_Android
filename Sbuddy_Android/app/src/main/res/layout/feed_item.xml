@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    :android="http://schemas.android.com/apk/res/android">
+<layout :android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable
@@ -9,10 +9,11 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="25dp">
+        android:padding="20dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/title_layout"
@@ -26,7 +27,7 @@
                 android:id="@+id/profile_img"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-
+                tools:profileUrl="@{item.profile}"
                 app:layout_constraintEnd_toStartOf="@id/profile_name_layout"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -46,14 +47,14 @@
                     android:layout_height="wrap_content"
                     android:text="@{item.username}"
                     android:textColor="@color/black"
-                    android:textSize="15sp"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="3 min ago"
-                    android:textSize="13sp" />
+                    android:text="@{item.upload_date}"
+                    android:textSize="15sp" />
 
 
             </LinearLayout>
@@ -73,11 +74,13 @@
         <ImageView
             android:id="@+id/content_img"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
+            android:layout_height="230dp"
+            tools:contentUrl="@{item.file_path}"
             app:layout_constraintBottom_toTopOf="@+id/content_txt"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title_layout" />
+            app:layout_constraintTop_toBottomOf="@+id/title_layout"
+            android:paddingTop="5dp"
+            />
 
         <TextView
             android:id="@+id/content_txt"
@@ -85,6 +88,8 @@
             android:layout_height="wrap_content"
             android:text="@{item.content}"
             android:textColor="@color/black"
+            android:textSize="15sp"
+            android:paddingTop="5dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/content_img" />
 
@@ -111,6 +116,7 @@
                 android:layout_height="wrap_content"
                 android:paddingRight="5dp"
                 android:text="좋아요"
+                android:textSize="15sp"
                 android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/like_icon"

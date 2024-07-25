@@ -45,8 +45,11 @@ class FeedFragment : Fragment() {
     }
 
     fun setRecyclerView(){
-        binding.recyclerView.layoutManager = LinearLayoutManager(context)
-        binding.recyclerView.adapter = PostItemAdapter()
+        binding.recyclerView.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = PostItemAdapter()
+            setHasFixedSize(true)
+        }
     }
 
 

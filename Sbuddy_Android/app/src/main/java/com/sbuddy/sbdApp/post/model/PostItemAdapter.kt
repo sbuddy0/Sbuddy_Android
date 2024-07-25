@@ -7,6 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sbuddy.sbdApp.databinding.FeedItemBinding
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.DiffUtil
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.sbuddy.sbdApp.R
 
 class PostItemAdapter : ListAdapter<PostItem, PostItemAdapter.ViewHolder>(PostItemDiffCallback()) {
 
