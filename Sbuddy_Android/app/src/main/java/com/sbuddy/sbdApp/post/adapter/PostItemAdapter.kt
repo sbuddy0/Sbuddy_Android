@@ -1,20 +1,28 @@
-package com.sbuddy.sbdApp.post.model
+package com.sbuddy.sbdApp.post.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.sbuddy.sbdApp.databinding.FeedItemBinding
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.DiffUtil
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
-import com.sbuddy.sbdApp.R
+import com.sbuddy.sbdApp.post.listener.PostItemClickListener
+import com.sbuddy.sbdApp.post.model.PostItem
 
-class PostItemAdapter : ListAdapter<PostItem, PostItemAdapter.ViewHolder>(PostItemDiffCallback()) {
+class PostItemAdapter(private val itemListener: PostItemClickListener) : ListAdapter<PostItem, PostItemAdapter.ViewHolder>(PostItemDiffCallback()) {
 
     inner class ViewHolder(private val binding: FeedItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        init {
+            // 클릭 리스너 설정
+            binding.likeIcon.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val item = getItem(position)
+                    itemListener.onHeartIconClicked(item)
+                }
+            }
+        }
         fun bind(postItem: PostItem) {
             binding.item = postItem
             binding.executePendingBindings()

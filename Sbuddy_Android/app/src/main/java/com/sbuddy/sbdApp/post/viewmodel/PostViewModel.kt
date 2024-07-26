@@ -9,11 +9,13 @@ import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
+import com.sbuddy.sbdApp.http.Like
 import com.sbuddy.sbdApp.http.Search
 import com.sbuddy.sbdApp.post.model.PostItem
 import com.sbuddy.sbdApp.post.model.PostRepository
 import com.sbuddy.sbdApp.post.model.PostResponse
 import com.sbuddy.sbdApp.util.JsonParser
+import com.sbuddy.sbdApp.util.MetaData
 import kotlinx.coroutines.launch
 import org.json.JSONArray
 import org.json.JSONObject
@@ -30,11 +32,49 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
 
     fun loadItems(){
         viewModelScope.launch {
-
-            val response = repository.postList(Search(""))
+            val response = repository.postList(Search(MetaData.idxMember, ""))
             if(response.isSuccessful){
-                if(response.body()?.code == "OK"){
+                if(response.body()?.code == "200"){
+                    Log.w("sbuddyy", "data.list : " + response.body()!!.data.list)
                     _items.value = response.body()!!.data.list
+                    return@launch
+                }
+                _showToast.value = true
+            }
+        }
+    }
+
+    fun like(postItem: PostItem){
+        if(postItem.is_like){
+            cancelLike(postItem.idx_post)
+        }else{
+            likePost(postItem.idx_post)
+        }
+    }
+
+    fun likePost(idx_post: Int){
+        Log.w("sbuddyy", "likePost")
+        viewModelScope.launch {
+            val response = repository.postLike(Like(idx_post, MetaData.idxMember))
+            if(response.isSuccessful){
+                val map = response.body() as Map<*, *>
+                if(map.get("code") == "200"){
+                    loadItems()
+                    return@launch
+                }
+                _showToast.value = true
+            }
+        }
+    }
+
+    fun cancelLike(idx_post: Int){
+        Log.w("sbuddyy", "cancelLike")
+        viewModelScope.launch {
+            val response = repository.postcancelLike(Like(idx_post, MetaData.idxMember))
+            if(response.isSuccessful){
+                val map = response.body() as Map<*, *>
+                if(map.get("code") == "200"){
+                    loadItems()
                     return@launch
                 }
                 _showToast.value = true

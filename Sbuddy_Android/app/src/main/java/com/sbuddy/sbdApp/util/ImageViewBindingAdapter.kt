@@ -46,4 +46,12 @@ object ImageViewBindingAdapter {
         }
     }
 
+    @JvmStatic
+    @BindingAdapter("app:isLiked")
+    fun setLikeIcon(view: ImageView, isLiked: Boolean) {
+        val resourceId = if (isLiked) R.drawable.baseline_favorite_24 // 좋아요 이미지
+        else R.drawable.outline_favorite_border_24 // 좋아요 안 한 상태 이미지
+        view.setImageResource(resourceId)
+    }
+
 }

@@ -51,7 +51,19 @@ interface RetrofitService {
         @Body params: Search
     ):Response<PostResponse>
 
-    @POST("api/v1/post/popular/list")
+    @POST("/api/v1/post/likes")
+    @Headers("Content-Type: application/json")
+    suspend fun like(
+        @Body params: Like
+    ):Response<Any>
+
+    @POST("/api/v1/post/likes/cancel")
+    @Headers("Content-Type: application/json")
+    suspend fun cancelLike(
+        @Body params: Like
+    ):Response<Any>
+
+    @POST("api/v1/post/likes/cancel")
     @Headers("Content-Type: application/json")
     suspend fun list(
         @FieldMap params: Map<String, String>
@@ -86,9 +98,14 @@ data class SignUp(
 
 //
 data class Search(
+    @SerializedName(value = "idx_member") var idxMember: String,
     @SerializedName(value = "search") var search: String
 )
 
+data class Like(
+    @SerializedName(value = "idx_post") var idxPost: Int,
+    @SerializedName(value = "idx_member") var idxMember: String
+)
 
 
 

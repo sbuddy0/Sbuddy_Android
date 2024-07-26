@@ -31,7 +31,7 @@ class SignUpViewModel(application: Application) : AndroidViewModel(application) 
                 val map = JsonParser.getJsonData(response.body().toString())
                 val code = map.get("code")
 
-                if (code == "OK") {
+                if (code == "200") {
                     showNextActivity.value = true
                     return@launch
                 }

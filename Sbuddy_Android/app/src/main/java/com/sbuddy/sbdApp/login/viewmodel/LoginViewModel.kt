@@ -9,6 +9,7 @@ import com.sbuddy.sbdApp.http.Email
 import com.sbuddy.sbdApp.http.User
 import com.sbuddy.sbdApp.login.model.LoginRepository
 import com.sbuddy.sbdApp.util.JsonParser
+import com.sbuddy.sbdApp.util.MetaData
 import com.sbuddy.sbdApp.util.ShareData
 import kotlinx.coroutines.launch
 
@@ -32,10 +33,13 @@ class LoginViewModel(application: Application) : AndroidViewModel(application){
                     val map = JsonParser.getJsonData(response.body().toString())
                     val code = map.get("code")
 
-                    if(code == "OK"){
+                    if(code == "200"){
                         showNextActivity.value = true // main에 상태를 알려줌
                         val data = map.get("data") as HashMap<*, *>
+                        MetaData.token = data.get("token") as String
+                        MetaData.idxMember = data.get("idx_member") as String
                         ShareData.setStringData(getApplication(), ShareData.LOGIN, ShareData.LOGIN_SESSION, data.get("token") as String)
+                        ShareData.setStringData(getApplication(), ShareData.LOGIN, ShareData.LOGIN_IDX_MEMBER, data.get("idx_member") as String)
                         return@launch
                     }
                     _showToast.value = true

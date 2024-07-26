@@ -11,8 +11,13 @@ object SbuddyRetrofitService {
     fun instance(): RetrofitService {
         val clientBuilder = OkHttpClient.Builder()
         val loggingInterceptor = HttpLoggingInterceptor()
+        val appInterceptor = AppInterceptor()
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
-        clientBuilder.addInterceptor(loggingInterceptor)
+        clientBuilder.apply {
+            addInterceptor(loggingInterceptor)
+            addInterceptor(appInterceptor)
+        }
+
 
         val retrofit = Retrofit.Builder()
             .baseUrl("http://13.238.152.155:8082/")

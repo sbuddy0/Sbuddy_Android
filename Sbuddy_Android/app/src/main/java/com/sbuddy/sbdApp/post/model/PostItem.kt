@@ -7,6 +7,7 @@ data class PostItem (
     val content: String,
     val file_path: String,
     val profile: String,
+    val is_like: Boolean,
     val like_cnt: String,
     val upload_date: String,
     val update_date: String?

@@ -1,24 +1,22 @@
 package com.sbuddy.sbdApp.post.view
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
-import com.sbuddy.sbdApp.R
 import com.sbuddy.sbdApp.databinding.FragmentFeedBinding
+import com.sbuddy.sbdApp.post.adapter.PostItemAdapter
+import com.sbuddy.sbdApp.post.listener.PostItemClickListener
 import com.sbuddy.sbdApp.post.model.PostItem
-import com.sbuddy.sbdApp.post.model.PostItemAdapter
 import com.sbuddy.sbdApp.post.viewmodel.PostViewModel
 
-class FeedFragment : Fragment() {
+class FeedFragment : Fragment(), PostItemClickListener {
     private lateinit var binding: FragmentFeedBinding
     private lateinit var postViewModel: PostViewModel
 
@@ -45,11 +43,9 @@ class FeedFragment : Fragment() {
     }
 
     fun setRecyclerView(){
-        binding.recyclerView.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = PostItemAdapter()
-            setHasFixedSize(true)
-        }
+        binding.recyclerView.layoutManager = LinearLayoutManager(context)
+        binding.recyclerView.adapter = PostItemAdapter(this)
+        binding.recyclerView.setHasFixedSize(true)
     }
 
 
@@ -64,5 +60,9 @@ class FeedFragment : Fragment() {
                 // TODO: Toast 메시지 보여주는 로직 추가
             }
         })
+    }
+
+    override fun onHeartIconClicked(postItem: PostItem) {
+        postViewModel.like(postItem)
     }
 }
