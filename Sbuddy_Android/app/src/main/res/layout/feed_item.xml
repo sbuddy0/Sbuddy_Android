@@ -72,7 +72,53 @@
                 app:layout_constraintTop_toTopOf="@+id/profile_img" />
 
 
+
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- 메뉴 리스트 -->
+        <!-- 작은 메뉴 -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/small_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@id/title_layout"
+            app:layout_constraintTop_toBottomOf="@id/title_layout"
+            android:background="@android:color/white"
+            android:elevation="4dp">
+
+            <!-- 수정 버튼 -->
+            <TextView
+                android:id="@+id/edit_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="수정"
+                android:padding="10dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:background="?attr/selectableItemBackground"
+                android:textColor="@android:color/black"
+                />
+
+            <!-- 삭제 버튼 -->
+            <TextView
+                android:id="@+id/delete_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="삭제"
+                android:padding="10dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:layout_constraintStart_toEndOf="@id/edit_button"
+                app:layout_constraintTop_toTopOf="parent"
+                android:background="?attr/selectableItemBackground"
+                android:textColor="@android:color/black"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <ImageView
             android:id="@+id/content_img"
@@ -133,6 +179,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/like_txt"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            />
 
 <!--            <ImageView-->
 <!--                android:id="@+id/book_mark"-->

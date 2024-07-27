@@ -11,4 +11,5 @@ class PostRepository {
     suspend fun postList(search: Search) = retrofitService.getList(search)
     suspend fun postLike(like: Like) = retrofitService.like(like)
     suspend fun postcancelLike(like: Like) = retrofitService.cancelLike(like)
+    suspend fun postDelete(like: Like) = retrofitService.delete(like)
 }

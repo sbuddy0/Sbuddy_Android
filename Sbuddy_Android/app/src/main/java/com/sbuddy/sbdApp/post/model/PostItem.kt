@@ -2,6 +2,7 @@ package com.sbuddy.sbdApp.post.model
 
 data class PostItem (
     val idx_post: Int,
+    val idx_member: Int,
     val username: String,
     val title: String,
     val content: String,

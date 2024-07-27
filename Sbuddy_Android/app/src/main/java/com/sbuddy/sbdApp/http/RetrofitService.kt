@@ -63,6 +63,12 @@ interface RetrofitService {
         @Body params: Like
     ):Response<Any>
 
+    @POST("/api/v1/post/delete")
+    @Headers("Content-Type: application/json")
+    suspend fun delete(
+        @Body params: Like
+    ):Response<Any>
+
     @POST("api/v1/post/likes/cancel")
     @Headers("Content-Type: application/json")
     suspend fun list(
@@ -106,6 +112,7 @@ data class Like(
     @SerializedName(value = "idx_post") var idxPost: Int,
     @SerializedName(value = "idx_member") var idxMember: String
 )
+
 
 
 

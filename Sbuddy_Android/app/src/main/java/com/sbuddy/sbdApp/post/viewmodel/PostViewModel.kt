@@ -82,6 +82,22 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    fun delete(postItem: PostItem){
+        if(postItem.idx_member == Integer.parseInt(MetaData.idxMember)){
+            viewModelScope.launch {
+                val response = repository.postDelete(Like(postItem.idx_post, MetaData.idxMember))
+                if(response.isSuccessful){
+                    val map = response.body() as Map<*, *>
+                    if(map.get("code") == "200"){
+                        loadItems()
+                        return@launch
+                    }
+                    _showToast.value = true
+                }
+            }
+        }
+    }
+
     val items: LiveData<List<PostItem>>
         get() = _items
 

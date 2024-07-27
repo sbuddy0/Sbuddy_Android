@@ -33,7 +33,9 @@ class LoginViewModel(application: Application) : AndroidViewModel(application){
                     val map = JsonParser.getJsonData(response.body().toString())
                     val code = map.get("code")
 
-                    if(code == "200"){
+                    Log.w("sbuddyy", "code " + code)
+                    if(code == 200){
+                        Log.w("sbuddyy", "code " + code)
                         showNextActivity.value = true // main에 상태를 알려줌
                         val data = map.get("data") as HashMap<*, *>
                         MetaData.token = data.get("token") as String
@@ -58,7 +60,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application){
                 val map = JsonParser.getJsonData(response.body().toString())
                 val code = map.get("code")
 
-                if(code == "OK"){
+                if(code == "200"){
                     showNextActivity.value = true // main에 상태를 알려줌
                     return@launch
                 }

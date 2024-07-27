@@ -65,4 +65,13 @@ class FeedFragment : Fragment(), PostItemClickListener {
     override fun onHeartIconClicked(postItem: PostItem) {
         postViewModel.like(postItem)
     }
+
+    override fun onDeleteClicked(postItem: PostItem) {
+        Log.w("sbuddyy", "onDeleteClicked")
+        postViewModel.delete(postItem)
+    }
+
+    override fun onReviseClicked(postItem: PostItem) {
+        TODO("Not yet implemented")
+    }
 }
