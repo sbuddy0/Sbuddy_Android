@@ -7,4 +7,5 @@ interface PostItemClickListener {
     fun onHeartIconClicked(postItem: PostItem)
     fun onDeleteClicked(postItem: PostItem)
     fun onReviseClicked(postItem: PostItem)
+    fun onContentClicked(postItem: PostItem)
 }
