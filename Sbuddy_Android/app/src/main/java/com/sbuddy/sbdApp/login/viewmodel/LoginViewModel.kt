@@ -38,7 +38,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application){
                         Log.w("sbuddyy", "code " + code)
                         showNextActivity.value = true // main에 상태를 알려줌
                         val data = map.get("data") as HashMap<*, *>
-                        MetaData.token = data.get("token") as String
+                        MetaData.token = (data.get("token") as String)
                         MetaData.idxMember = data.get("idx_member") as String
                         ShareData.setStringData(getApplication(), ShareData.LOGIN, ShareData.LOGIN_SESSION, data.get("token") as String)
                         ShareData.setStringData(getApplication(), ShareData.LOGIN, ShareData.LOGIN_IDX_MEMBER, data.get("idx_member") as String)

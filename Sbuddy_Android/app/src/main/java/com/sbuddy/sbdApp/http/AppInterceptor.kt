@@ -7,10 +7,12 @@ import java.io.IOException
 
 class AppInterceptor : Interceptor {
     @Throws(IOException::class)
-    override fun intercept(chain: Interceptor.Chain) : Response = with(chain) {
-        val newRequest = request().newBuilder()
+    override fun intercept(chain: Interceptor.Chain) : Response {
+
+        val newRequest = chain.request().newBuilder()
             .addHeader("token", MetaData.token)
             .build()
-        proceed(newRequest)
+
+        return chain.proceed(newRequest)
     }
 }

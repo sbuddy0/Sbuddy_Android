@@ -4,5 +4,7 @@ class MetaData {
     companion object{
         var token: String = ""
         var idxMember: String = ""
+
+
     }
 }

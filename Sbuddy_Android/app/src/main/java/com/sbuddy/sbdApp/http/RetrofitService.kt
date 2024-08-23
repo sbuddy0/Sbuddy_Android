@@ -2,13 +2,19 @@ package com.sbuddy.sbdApp.http
 
 import com.google.gson.annotations.SerializedName
 import com.sbuddy.sbdApp.post.model.PostResponse
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.FieldMap
 import retrofit2.http.FormUrlEncoded
+import retrofit2.http.Header
 import retrofit2.http.Headers
+import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.Part
+import retrofit2.http.PartMap
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -75,6 +81,13 @@ interface RetrofitService {
         @FieldMap params: Map<String, String>
     ): Response<Any>
 
+    @Multipart
+    @POST("api/v1/post/write")
+    suspend fun post(
+//        @Header("token") authHeader: String, // 헤더를 직접 추가
+        @Part img:MultipartBody.Part,
+        @Part("param") params: RequestBody
+    ):Response<Any>
 
 }
 
@@ -113,6 +126,11 @@ data class Like(
     @SerializedName(value = "idx_member") var idxMember: String
 )
 
+data class Post(
+    @SerializedName(value = "title") var title:String,
+    @SerializedName(value = "content") var content:String,
+    @SerializedName(value = "keyword_list") var keyword:ArrayList<Int>
+)
 
 
 

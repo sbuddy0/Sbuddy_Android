@@ -20,7 +20,8 @@ object SbuddyRetrofitService {
 
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://13.238.152.155:8082/")
+            .baseUrl("http://54.252.34.20:8082/")
+//            .baseUrl("http://10.0.2.2:8082/")
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .client((clientBuilder.build()))

@@ -1,6 +1,7 @@
 package com.sbuddy.sbdApp.post.viewmodel
 
 import android.app.Application
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -10,15 +11,19 @@ import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
 import com.sbuddy.sbdApp.http.Like
+import com.sbuddy.sbdApp.http.Post
 import com.sbuddy.sbdApp.http.Search
 import com.sbuddy.sbdApp.post.model.PostItem
 import com.sbuddy.sbdApp.post.model.PostRepository
 import com.sbuddy.sbdApp.post.model.PostResponse
 import com.sbuddy.sbdApp.util.JsonParser
 import com.sbuddy.sbdApp.util.MetaData
+import com.sbuddy.sbdApp.util.UploadUtil
 import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
 import org.json.JSONArray
 import org.json.JSONObject
+import java.io.File
 
 class PostViewModel(application: Application) : AndroidViewModel(application) {
     private val repository: PostRepository = PostRepository()
@@ -96,6 +101,23 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
                 }
             }
         }
+    }
+
+    fun post(img: MultipartBody.Part, post: Post){
+        viewModelScope.launch {
+            val response = repository.post(img, post)
+            if(response.isSuccessful){
+                Log.d("sbuddyy", "게시성공")
+            }
+        }
+    }
+
+
+    fun uploadImageToServer(file: File){
+        val array = ArrayList<Int>()
+        array.add(1)
+        val post = Post("제목", "ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ", array)
+        post(UploadUtil.prepareFilePart("file", file), post)
     }
 
     val items: LiveData<List<PostItem>>
