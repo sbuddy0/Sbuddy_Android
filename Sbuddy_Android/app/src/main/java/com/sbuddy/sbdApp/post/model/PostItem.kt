@@ -1,5 +1,8 @@
 package com.sbuddy.sbdApp.post.model
 
+import android.util.Log
+import android.view.View
+
 data class PostItem (
     val idx_post: Int,
     val idx_member: Int,
@@ -12,4 +15,7 @@ data class PostItem (
     val like_cnt: String,
     val upload_date: String,
     val update_date: String?
-        )
+        ) {
+
+    fun hasImage(): Boolean = file_path.isNotEmpty()
+}

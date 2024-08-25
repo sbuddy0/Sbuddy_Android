@@ -1,6 +1,7 @@
 package com.sbuddy.sbdApp.http
 
 import com.google.gson.annotations.SerializedName
+import com.sbuddy.sbdApp.post.model.KeywordResponse
 import com.sbuddy.sbdApp.post.model.PostResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -88,6 +89,11 @@ interface RetrofitService {
         @Part img:MultipartBody.Part,
         @Part("param") params: RequestBody
     ):Response<Any>
+
+    @POST(" /api/v1/keyword/list")
+    suspend fun keywordList(
+
+    ): Response<KeywordResponse>
 
 }
 

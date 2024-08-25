@@ -13,6 +13,7 @@ import com.google.gson.reflect.TypeToken
 import com.sbuddy.sbdApp.http.Like
 import com.sbuddy.sbdApp.http.Post
 import com.sbuddy.sbdApp.http.Search
+import com.sbuddy.sbdApp.post.model.Keyword
 import com.sbuddy.sbdApp.post.model.PostItem
 import com.sbuddy.sbdApp.post.model.PostRepository
 import com.sbuddy.sbdApp.post.model.PostResponse
@@ -31,10 +32,26 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     private var _items = MutableLiveData<List<PostItem>>()
     private var _showToast : MutableLiveData<Boolean> = MutableLiveData(false)
 
+    private var _keyWords = MutableLiveData<List<Keyword>>()
+
     init {
         loadItems()
+        loadKeywords()
     }
 
+    fun loadKeywords(){
+        if(_keyWords.value == null){
+            viewModelScope.launch {
+                val response = repository.keywordList()
+                if(response.isSuccessful){
+                    if(response.body()?.code == 200){
+                        _keyWords.value = response.body()!!.data.keywords
+                        Log.w("sbuddyy", "keywords : " + _keyWords)
+                    }
+                }
+            }
+        }
+    }
     fun loadItems(){
         viewModelScope.launch {
             val response = repository.postList(Search(MetaData.idxMember, ""))

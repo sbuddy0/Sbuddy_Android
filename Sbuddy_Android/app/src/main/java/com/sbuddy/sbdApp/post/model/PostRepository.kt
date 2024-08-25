@@ -17,4 +17,5 @@ class PostRepository {
     suspend fun postcancelLike(like: Like) = retrofitService.cancelLike(like)
     suspend fun postDelete(like: Like) = retrofitService.delete(like)
     suspend fun post(img: MultipartBody.Part, post: Post) =  retrofitService.post(img, UploadUtil.createJsonRequestBody(post))
+    suspend fun keywordList() = retrofitService.keywordList()
 }

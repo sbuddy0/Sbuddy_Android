@@ -33,7 +33,7 @@
             android:src="@drawable/round_add_circle_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:onClick="@{() -> fragment.openGallery()}"/>
+            android:onClick="@{() -> fragment.goWriteActivity()}"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

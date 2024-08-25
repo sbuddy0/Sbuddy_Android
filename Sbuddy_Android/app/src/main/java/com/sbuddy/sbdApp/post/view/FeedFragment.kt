@@ -1,5 +1,6 @@
 package com.sbuddy.sbdApp.post.view
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -64,6 +65,10 @@ class FeedFragment : Fragment(), PostItemClickListener {
                 // TODO: Toast 메시지 보여주는 로직 추가
             }
         })
+    }
+
+    fun goWriteActivity(){
+        startActivity(Intent(context, PostWriteActivity::class.java))
     }
 
     private lateinit var selectedImageUri: Uri
