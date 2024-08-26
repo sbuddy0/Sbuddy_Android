@@ -1,0 +1,31 @@
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    :android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.sbuddy.sbdApp.post.viewmodel.PostViewModel" />
+
+        <variable
+            name="item"
+            type="com.sbuddy.sbdApp.post.model.Keyword" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/keyword_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{item.keyword}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:textSize="15sp"
+            android:padding="10dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

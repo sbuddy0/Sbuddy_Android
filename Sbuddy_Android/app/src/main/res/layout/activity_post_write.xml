@@ -121,6 +121,12 @@
                 app:layout_constraintEnd_toStartOf="@+id/two_keyword"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:orientation="vertical">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/one_recyclerview">
+
+                </androidx.recyclerview.widget.RecyclerView>
 
             </LinearLayout>
 
@@ -133,6 +139,12 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:orientation="vertical">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/two_recyclerview">
+
+                </androidx.recyclerview.widget.RecyclerView>
 
             </LinearLayout>
 

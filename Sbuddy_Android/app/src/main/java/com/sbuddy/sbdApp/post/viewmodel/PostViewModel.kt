@@ -29,24 +29,33 @@ import java.io.File
 class PostViewModel(application: Application) : AndroidViewModel(application) {
     private val repository: PostRepository = PostRepository()
 
+    private var grouped:Map<String?, List<Keyword>> = HashMap<String?, List<Keyword>>()
     private var _items = MutableLiveData<List<PostItem>>()
     private var _showToast : MutableLiveData<Boolean> = MutableLiveData(false)
 
     private var _keyWords = MutableLiveData<List<Keyword>>()
-
+    private var _titleKeywords = MutableLiveData<List<Keyword>>()
+    private var _subKeywords = MutableLiveData<List<Keyword>>()
     init {
         loadItems()
         loadKeywords()
     }
 
     fun loadKeywords(){
-        if(_keyWords.value == null){
+        if(_keyWords.value.isNullOrEmpty()){
             viewModelScope.launch {
                 val response = repository.keywordList()
                 if(response.isSuccessful){
                     if(response.body()?.code == 200){
-                        _keyWords.value = response.body()!!.data.keywords
-                        Log.w("sbuddyy", "keywords : " + _keyWords)
+                        _keyWords.value = response.body()!!.data.list
+                        grouped = (_keyWords.value as List<Keyword>).groupBy { it.idx_category }
+
+                        _titleKeywords.value = grouped[null] ?: listOf()
+                        val first = _titleKeywords.value!!.get(0)
+                        first.isChecked = true
+                        _subKeywords.value = grouped.get(first.idx_keyword.toString())
+                        Log.d("keywordd", "subKeyword : " + _subKeywords.value)
+
                     }
                 }
             }
@@ -120,6 +129,38 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    fun titleCheck(idxKeyword: String) {
+        val updatedList = _titleKeywords.value?.map {
+            if (it.idx_keyword.toString() == idxKeyword) {
+                it.copy(isChecked = !it.isChecked)
+            } else {
+                it
+            }
+        }
+        _titleKeywords.postValue(updatedList)
+        // Optionally, update subKeywords based on the new selection
+        _subKeywords.postValue(grouped[idxKeyword])
+    }
+
+    fun subCheck(idxKeyword: String) {
+        val updatedList = _subKeywords.value?.map {
+            if (it.idx_keyword.toString() == idxKeyword) {
+                it.copy(isChecked = !it.isChecked)
+            } else {
+                it
+            }
+        }
+        _subKeywords.postValue(updatedList)
+    }
+    fun checkTitleKeyword(idxCategory:String, idxKeyword: String){
+        titleCheck(idxKeyword)
+        _subKeywords.value = grouped.get(idxKeyword)
+    }
+
+    fun checkSubKeyword(idxCategory:String, idxKeyword: String){
+        subCheck(idxKeyword)
+    }
+
     fun post(img: MultipartBody.Part, post: Post){
         viewModelScope.launch {
             val response = repository.post(img, post)
@@ -140,7 +181,17 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     val items: LiveData<List<PostItem>>
         get() = _items
 
+    val keywords : MutableLiveData<List<Keyword>>
+        get() = _keyWords
+
+    val titleKeywords : MutableLiveData<List<Keyword>>
+        get() = _titleKeywords
+
+    val subKeywords : MutableLiveData<List<Keyword>>
+        get() = _subKeywords
+
     val showToast : MutableLiveData<Boolean>
         get() = _showToast
+
 
 }

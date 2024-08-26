@@ -90,9 +90,10 @@ interface RetrofitService {
         @Part("param") params: RequestBody
     ):Response<Any>
 
-    @POST(" /api/v1/keyword/list")
+    @POST("api/v1/keyword/list")
+    @Headers("Content-Type: application/json")
     suspend fun keywordList(
-
+        @Body params: Map<String, String>
     ): Response<KeywordResponse>
 
 }
