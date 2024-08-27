@@ -31,11 +31,15 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
 
     private var grouped:Map<String?, List<Keyword>> = HashMap<String?, List<Keyword>>()
     private var _items = MutableLiveData<List<PostItem>>()
-    private var _showToast : MutableLiveData<Boolean> = MutableLiveData(false)
 
     private var _keyWords = MutableLiveData<List<Keyword>>()
     private var _titleKeywords = MutableLiveData<List<Keyword>>()
     private var _subKeywords = MutableLiveData<List<Keyword>>()
+
+    private var _selectedImageUri = MutableLiveData<Uri>()
+
+    private var _showNextActivity : MutableLiveData<Boolean> = MutableLiveData(false)
+    private var _showToast : MutableLiveData<Boolean> = MutableLiveData(false)
     init {
         loadItems()
         loadKeywords()
@@ -161,21 +165,53 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         subCheck(idxKeyword)
     }
 
-    fun post(img: MultipartBody.Part, post: Post){
-        viewModelScope.launch {
-            val response = repository.post(img, post)
-            if(response.isSuccessful){
-                Log.d("sbuddyy", "게시성공")
+    fun post(file: File, title: String, content: String){
+
+        try {
+            viewModelScope.launch {
+                // 키워드 배열로 만들기
+                val keywords = ArrayList<Int>()
+
+                for(i in 0 until _titleKeywords.value!!.size){
+                    if(_titleKeywords.value!!.get(i).isChecked){
+                        keywords.add(_titleKeywords.value!!.get(i).idx_keyword)
+                    }
+                }
+                for(i in 0 until _subKeywords.value!!.size){
+                    if(_subKeywords.value!!.get(i).isChecked){
+                        keywords.add(_subKeywords.value!!.get(i).idx_keyword)
+                    }
+                }
+                val post = Post(title, content, keywords)
+                val response = repository.post(UploadUtil.prepareFilePart("file", file), post)
+                Log.d("keywordd", "response : " + response.body())
+                if(response.isSuccessful){
+                    Log.d("sbuddyy", "게시성공")
+                    val map = response.body() as Map<*, *>
+                    if(map.get("code") == "200"){
+                        loadItems()
+                        _showNextActivity.value = true
+                        return@launch
+                    }
+                }
+                _showToast.value = true
             }
+        }catch (e: Exception){
+            _showToast.value = true
         }
+
     }
 
 
     fun uploadImageToServer(file: File){
         val array = ArrayList<Int>()
         array.add(1)
-        val post = Post("제목", "ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ", array)
-        post(UploadUtil.prepareFilePart("file", file), post)
+//        val post = Post("제목", "ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ", array)
+//        post(UploadUtil.prepareFilePart("file", file), post)
+    }
+
+    fun setSelectedImageUri(uri : Uri){
+        _selectedImageUri.value = uri
     }
 
     val items: LiveData<List<PostItem>>
@@ -193,5 +229,9 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     val showToast : MutableLiveData<Boolean>
         get() = _showToast
 
+    val selectedImageUri : MutableLiveData<Uri>
+        get() = _selectedImageUri
 
+    val showNextActivity : MutableLiveData<Boolean>
+        get() = _showNextActivity
 }
