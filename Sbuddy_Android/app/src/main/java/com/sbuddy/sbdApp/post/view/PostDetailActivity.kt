@@ -17,10 +17,28 @@ class PostDetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_post_detail)
         postViewModel = ViewModelProvider(this)[PostViewModel::class.java]
         binding.viewModel = postViewModel
         binding.lifecycleOwner = this
         binding.activity = this
+
+        setObserve()
+        detail()
+
+    }
+
+    fun setObserve(){
+        postViewModel.detail
+    }
+
+    fun detail(){
+        // postviewModel의 아이템에서 현재 idx 가져옴\
+        val intent = getIntent()
+        val idxPost = intent.getIntExtra("idx_post", 0)
+        postViewModel.loadItems{
+            postViewModel.setItem(idxPost)
+            postViewModel.detail(idxPost)
+        }
     }
 }

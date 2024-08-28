@@ -51,7 +51,15 @@ class PostItemAdapter(private val itemListener: PostItemClickListener) : ListAda
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     val item = getItem(position)
-                    itemListener.onDeleteClicked(item)
+                    itemListener.onDeleteClicked(item) // item 통째는 쫌;; 나중에 수정할 것
+                }
+            }
+
+            binding.clickLayout.setOnClickListener{
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val item = getItem(position)
+                    itemListener.onItemClicked(item) // item 통째는 쫌;; 나중에 수정할 것
                 }
             }
         }

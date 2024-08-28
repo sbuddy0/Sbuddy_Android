@@ -2,6 +2,7 @@ package com.sbuddy.sbdApp.http
 
 import com.google.gson.annotations.SerializedName
 import com.sbuddy.sbdApp.post.model.KeywordResponse
+import com.sbuddy.sbdApp.post.model.PostDetailResponse
 import com.sbuddy.sbdApp.post.model.PostResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -96,6 +97,12 @@ interface RetrofitService {
         @Body params: Map<String, String>
     ): Response<KeywordResponse>
 
+    @POST("api/v1/post/detail")
+    @Headers("Content-Type: application/json")
+    suspend fun detail(
+        @Body params: Detail
+    ): Response<PostDetailResponse>
+
 }
 
 // 로그인 유저
@@ -137,6 +144,10 @@ data class Post(
     @SerializedName(value = "title") var title:String,
     @SerializedName(value = "content") var content:String,
     @SerializedName(value = "keyword_list") var keyword:ArrayList<Int>
+)
+
+data class Detail(
+    @SerializedName(value = "idx_post") var idxPost: Int
 )
 
 

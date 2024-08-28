@@ -1,5 +1,6 @@
 package com.sbuddy.sbdApp.post.model
 
+import com.sbuddy.sbdApp.http.Detail
 import com.sbuddy.sbdApp.http.Like
 import com.sbuddy.sbdApp.http.Post
 import com.sbuddy.sbdApp.http.RetrofitService
@@ -18,4 +19,5 @@ class PostRepository {
     suspend fun postDelete(like: Like) = retrofitService.delete(like)
     suspend fun post(img: MultipartBody.Part, post: Post) =  retrofitService.post(img, UploadUtil.createJsonRequestBody(post))
     suspend fun keywordList() = retrofitService.keywordList(mapOf())
+    suspend fun detail(detail: Detail) = retrofitService.detail(detail)
 }

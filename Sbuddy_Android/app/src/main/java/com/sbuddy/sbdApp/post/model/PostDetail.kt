@@ -1,4 +1,11 @@
 package com.sbuddy.sbdApp.post.model
 
-class PostDetail {
-}
+import java.io.File
+
+data class PostDetail (
+    val file: List<File>,
+    val idx_member: Int,
+    val title: String,
+    val keyword:List<Keyword>,
+    val content: String
+)

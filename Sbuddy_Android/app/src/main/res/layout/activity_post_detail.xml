@@ -10,6 +10,8 @@
             type="com.sbuddy.sbdApp.post.view.PostDetailActivity" />
     </data>
 
+
+
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -19,13 +21,82 @@
         tools:context=".post.view.PostDetailActivity"
         android:padding="20dp">
 
+        <ImageView
+            android:id="@+id/before_btn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="?android:attr/actionModeCloseDrawable"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+        <ImageView
+            android:id="@+id/add_watch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_more_horiz_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/before_btn"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/title_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/before_btn"
+            android:paddingBottom="20dp"
+            android:paddingTop="20dp">
+
+
+            <ImageView
+                android:id="@+id/profile_img"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                tools:profileUrl="@{viewModel.item.profile}"
+                app:layout_constraintEnd_toStartOf="@id/profile_name_layout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <LinearLayout
+                android:id="@+id/profile_name_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="@id/profile_img"
+                app:layout_constraintStart_toEndOf="@id/profile_img"
+                app:layout_constraintTop_toTopOf="@id/profile_img">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.item.username}"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.item.upload_date}"
+                    android:textSize="15sp" />
+
+
+            </LinearLayout>
+
+
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <TextView
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title_layout"
             app:layout_constraintStart_toStartOf="parent"
-            android:text="dafdasfads"
+            android:text="@{viewModel.item.title}"
             android:textSize="27sp"
             android:textColor="@color/black"
             android:textStyle="bold" />
@@ -40,22 +111,26 @@
             android:paddingBottom="20dp">
 
             <TextView
+                android:id="@+id/date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingRight="15dp"
-                android:textColor="#7E7E7E"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:textColor="#7E7E7E"
-                android:text="조회"
-                android:paddingRight="5dp"/>
+                android:textSize="17sp"/>
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:textColor="#7E7E7E"-->
+<!--                android:text="조회"-->
+<!--                android:paddingRight="5dp"-->
+<!--                android:textSize="17sp"/>-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#7E7E7E"
-                android:text="1111"/>
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:textColor="#7E7E7E"-->
+<!--                android:text="@{}"-->
+<!--                android:textSize="17sp"/>-->
 
         </LinearLayout>
 
@@ -64,7 +139,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/gray_layout"
-            android:text="dfaffdf"
+            android:text="@{viewModel.item.content}"
+            android:textSize="17sp"
             android:textColor="@color/black"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

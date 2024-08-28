@@ -44,7 +44,7 @@ class FeedFragment : Fragment(), PostItemClickListener {
 
     override fun onResume() {
         super.onResume()
-        postViewModel.loadItems()
+        postViewModel.loadItems{}
     }
 
     fun setRecyclerView(){
@@ -59,6 +59,10 @@ class FeedFragment : Fragment(), PostItemClickListener {
             Log.w("sbuddyy", "items 바뀜")
             ((binding.recyclerView.adapter) as ListAdapter<*, *>).submitList(items as List<Nothing>?)
         })
+
+        postViewModel.detail.observe(viewLifecycleOwner){
+
+        }
 
         postViewModel.showToast.observe(viewLifecycleOwner, Observer { showToast ->
             if (showToast) {
@@ -99,7 +103,9 @@ class FeedFragment : Fragment(), PostItemClickListener {
         TODO("Not yet implemented")
     }
 
-    override fun onContentClicked(postItem: PostItem) {
-        TODO("Not yet implemented")
+    override fun onItemClicked(postItem: PostItem) {
+        val intent = Intent(context, PostDetailActivity::class.java)
+        intent.putExtra("idx_post", postItem.idx_post)
+        startActivity(intent)
     }
 }

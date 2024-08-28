@@ -10,10 +10,13 @@ import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
+import com.sbuddy.sbdApp.http.Detail
 import com.sbuddy.sbdApp.http.Like
 import com.sbuddy.sbdApp.http.Post
 import com.sbuddy.sbdApp.http.Search
+import com.sbuddy.sbdApp.post.listener.LoadListener
 import com.sbuddy.sbdApp.post.model.Keyword
+import com.sbuddy.sbdApp.post.model.PostDetail
 import com.sbuddy.sbdApp.post.model.PostItem
 import com.sbuddy.sbdApp.post.model.PostRepository
 import com.sbuddy.sbdApp.post.model.PostResponse
@@ -31,17 +34,19 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
 
     private var grouped:Map<String?, List<Keyword>> = HashMap<String?, List<Keyword>>()
     private var _items = MutableLiveData<List<PostItem>>()
+    private var _item = MutableLiveData<PostItem>()
 
     private var _keyWords = MutableLiveData<List<Keyword>>()
     private var _titleKeywords = MutableLiveData<List<Keyword>>()
     private var _subKeywords = MutableLiveData<List<Keyword>>()
 
     private var _selectedImageUri = MutableLiveData<Uri>()
+    private var _detail = MutableLiveData<PostDetail>()
 
     private var _showNextActivity : MutableLiveData<Boolean> = MutableLiveData(false)
     private var _showToast : MutableLiveData<Boolean> = MutableLiveData(false)
     init {
-        loadItems()
+        loadItems {}
         loadKeywords()
     }
 
@@ -65,13 +70,14 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
     }
-    fun loadItems(){
+    fun loadItems(listener: LoadListener){
         viewModelScope.launch {
             val response = repository.postList(Search(MetaData.idxMember, ""))
             if(response.isSuccessful){
                 if(response.body()?.code == "200"){
                     Log.w("sbuddyy", "data.list : " + response.body()!!.data.list)
                     _items.value = response.body()!!.data.list
+                    listener.onLoadFinished()
                     return@launch
                 }
                 _showToast.value = true
@@ -94,7 +100,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
             if(response.isSuccessful){
                 val map = response.body() as Map<*, *>
                 if(map.get("code") == "200"){
-                    loadItems()
+                    loadItems{}
                     return@launch
                 }
                 _showToast.value = true
@@ -109,7 +115,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
             if(response.isSuccessful){
                 val map = response.body() as Map<*, *>
                 if(map.get("code") == "200"){
-                    loadItems()
+                    loadItems{}
                     return@launch
                 }
                 _showToast.value = true
@@ -124,7 +130,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
                 if(response.isSuccessful){
                     val map = response.body() as Map<*, *>
                     if(map.get("code") == "200"){
-                        loadItems()
+                        loadItems{}
                         return@launch
                     }
                     _showToast.value = true
@@ -142,7 +148,6 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
         _titleKeywords.postValue(updatedList)
-        // Optionally, update subKeywords based on the new selection
         _subKeywords.postValue(grouped[idxKeyword])
     }
 
@@ -189,7 +194,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
                     Log.d("sbuddyy", "게시성공")
                     val map = response.body() as Map<*, *>
                     if(map.get("code") == "200"){
-                        loadItems()
+                        loadItems{}
                         _showNextActivity.value = true
                         return@launch
                     }
@@ -200,6 +205,25 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
             _showToast.value = true
         }
 
+    }
+
+    fun setItem(idxPost: Int){
+        for(i in 0 until _items.value!!.size){
+            if(items.value!!.get(i).idx_post == idxPost){
+                _item.value = items.value!!.get(i)
+                break
+            }
+        }
+    }
+
+    fun detail(idxPost: Int){
+        viewModelScope.launch {
+            val response = repository.detail(Detail(idxPost))
+            if(response.isSuccessful){
+                Log.d("detaill",  "response : " + response.body())
+                _detail.value = response.body()!!.data
+            }
+        }
     }
 
 
@@ -231,6 +255,12 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
 
     val selectedImageUri : MutableLiveData<Uri>
         get() = _selectedImageUri
+
+    val detail : MutableLiveData<PostDetail>
+        get() = _detail
+
+    val item : MutableLiveData<PostItem>
+        get() = _item
 
     val showNextActivity : MutableLiveData<Boolean>
         get() = _showNextActivity
