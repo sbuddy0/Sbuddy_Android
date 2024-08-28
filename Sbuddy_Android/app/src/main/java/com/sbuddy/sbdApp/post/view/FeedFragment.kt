@@ -74,22 +74,6 @@ class FeedFragment : Fragment(), PostItemClickListener {
     fun goWriteActivity(){
         startActivity(Intent(context, PostWriteActivity::class.java))
     }
-
-    private lateinit var selectedImageUri: Uri
-
-    private val getImageContent = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        uri?.let {
-            selectedImageUri = it
-            // 선택한 이미지를 MultipartBody.Part로 변환하고 서버에 업로드하는 코드 호출
-            postViewModel.uploadImageToServer(UploadUtil.uriToFile(context, it))
-        }
-    }
-
-    fun openGallery(){
-        Log.w("sbuddyy", "openGallery")
-        getImageContent.launch("image/*")
-    }
-
     override fun onHeartIconClicked(postItem: PostItem) {
         postViewModel.like(postItem)
     }

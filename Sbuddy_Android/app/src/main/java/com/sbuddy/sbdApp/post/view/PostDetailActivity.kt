@@ -25,7 +25,6 @@ class PostDetailActivity : AppCompatActivity() {
 
         setObserve()
         detail()
-
     }
 
     fun setObserve(){
@@ -40,5 +39,9 @@ class PostDetailActivity : AppCompatActivity() {
             postViewModel.setItem(idxPost)
             postViewModel.detail(idxPost)
         }
+    }
+
+    fun goBefore(){
+        finish()
     }
 }

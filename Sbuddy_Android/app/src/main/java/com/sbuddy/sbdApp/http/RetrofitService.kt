@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName
 import com.sbuddy.sbdApp.post.model.KeywordResponse
 import com.sbuddy.sbdApp.post.model.PostDetailResponse
 import com.sbuddy.sbdApp.post.model.PostResponse
+import com.sbuddy.sbdApp.search.model.SearchPopularReponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -103,6 +104,11 @@ interface RetrofitService {
         @Body params: Detail
     ): Response<PostDetailResponse>
 
+    @POST("api/v1/post/popular/list")
+    @Headers("Content-Type: application/json")
+    suspend fun popularList(
+        @Body params: Map<String, String>
+    ): Response<SearchPopularReponse>
 }
 
 // 로그인 유저

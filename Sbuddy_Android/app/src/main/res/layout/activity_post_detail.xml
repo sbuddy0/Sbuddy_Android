@@ -27,7 +27,8 @@
             android:layout_height="30dp"
             android:src="?android:attr/actionModeCloseDrawable"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            android:onClick="@{() -> activity.goBefore()}"/>
         <ImageView
             android:id="@+id/add_watch"
             android:layout_width="wrap_content"
