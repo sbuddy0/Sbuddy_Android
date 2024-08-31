@@ -14,7 +14,8 @@ data class PostItem (
     val is_like: Boolean,
     val like_cnt: String,
     val upload_date: String,
-    val update_date: String?
+    val update_date: String?,
+    val keyword_list: List<Keyword>
         ) {
 
     fun hasImage(): Boolean = file_path.isNotEmpty()

@@ -5,5 +5,6 @@ data class Keyword (
     val code: String,
     val idx_category: String?,
     val keyword: String,
+    val description: String,
     var isChecked: Boolean
 )
