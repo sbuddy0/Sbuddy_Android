@@ -1,175 +1,151 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".SearchViewActivity"
-    android:layout_margin="20dp">
+<layout :android="http://schemas.android.com/apk/res/android">
 
+    <data>
 
-    <ImageView
-        android:id="@+id/before_btn"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:src="?android:attr/actionModeCloseDrawable"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-    <EditText
-        android:id="@+id/search"
-        android:layout_width="0dp"
-        android:layout_height="30dp"
-        app:layout_constraintTop_toTopOf="@+id/before_btn"
-        app:layout_constraintBottom_toBottomOf="@+id/before_btn"
-        app:layout_constraintStart_toEndOf="@+id/before_btn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/cancel_button"
-        android:background="@drawable/edittext_rounded_corner_rectangle"
-        android:hint="검색어를 입력해주세요."
-        android:textSize="13sp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:textColorHint="#C1C1C1"
-        android:gravity="center_vertical"
-        android:padding="5dp"/>
+        <variable
+            name="viewModel"
+            type="com.sbuddy.sbdApp.search.viewmodel.SearchViewModel" />
 
-    <ImageView
-        android:id="@+id/cancel_button"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        app:layout_constraintTop_toTopOf="@id/before_btn"
-        app:layout_constraintBottom_toBottomOf="@id/before_btn"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:background="@drawable/baseline_cancel_24"
-        app:layout_constraintStart_toEndOf="@id/search"/>
+        <variable
+            name="activity"
+            type="com.sbuddy.sbdApp.search.view.SearchViewActivity" />
+    </data>
 
-    <TextView
-        android:id="@+id/text1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/before_btn"
-        android:layout_marginTop="30dp"
-        android:text="최근 검색"
-        android:textSize="16sp"
-        android:textStyle="bold"/>
-
-
-    <LinearLayout
-        android:id="@+id/linear1"
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text1"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:layout_margin="20dp"
+        tools:context=".search.view.SearchViewActivity">
 
+
+        <ImageView
+            android:id="@+id/before_btn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="?android:attr/actionModeCloseDrawable"
+            app:layout_constraintBottom_toBottomOf="@id/search"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/search" />
+
+        <EditText
+            android:id="@+id/search"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/edittext_rounded_corner_rectangle"
+            android:gravity="center_vertical"
+            android:hint="검색어를 입력해주세요."
+            android:padding="5dp"
+            android:text=""
+            android:textColorHint="#C1C1C1"
+            android:textSize="17sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/cancel_button"
+            app:layout_constraintStart_toEndOf="@+id/before_btn"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/cancel_button"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/baseline_cancel_24"
+            app:layout_constraintBottom_toBottomOf="@id/before_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/search"
+            app:layout_constraintTop_toTopOf="@id/before_btn" />
+
+        <TextView
+            android:id="@+id/text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:text="최근 검색"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/before_btn" />
+
+
+        <LinearLayout
+            android:id="@+id/linear1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text1">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/stroke_corner_square"
+                android:padding="10dp"
+                android:text="키워드" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/stroke_corner_square"
+                android:padding="10dp"
+                android:text="키워드" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/stroke_corner_square"
+                android:padding="10dp"
+                android:text="키워드" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/stroke_corner_square"
+                android:padding="10dp"
+                android:text="키워드" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/stroke_corner_square"
+                android:padding="10dp"
+                android:text="키워드" />
+        </LinearLayout>
 
 
         <TextView
+            android:id="@+id/text2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
             android:text="키워드"
-            android:background="@drawable/stroke_corner_square"
-            android:padding="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="키워드"
-            android:background="@drawable/stroke_corner_square"
-            android:padding="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="키워드"
-            android:background="@drawable/stroke_corner_square"
-            android:padding="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="키워드"
-            android:background="@drawable/stroke_corner_square"
-            android:padding="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="키워드"
-            android:background="@drawable/stroke_corner_square"
-            android:padding="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"/>
-    </LinearLayout>
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/linear1" />
 
 
-    <TextView
-        android:id="@+id/text2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/linear1"
-        android:layout_marginTop="60dp"
-        android:text="키워드"
-        android:textSize="16sp"
-        android:textStyle="bold"/>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text2"
-        android:orientation="horizontal">
-
-
-
-        <TextView
-            android:layout_width="wrap_content"
+        <com.sbuddy.sbdApp.util.FlowLayout
+            android:id="@+id/keyword_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="키워드"
-            android:background="@drawable/stroke_corner_square"
-            android:padding="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="키워드"
-            android:background="@drawable/stroke_corner_square"
-            android:padding="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="키워드"
-            android:background="@drawable/stroke_corner_square"
-            android:padding="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="키워드"
-            android:background="@drawable/stroke_corner_square"
-            android:padding="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="키워드"
-            android:background="@drawable/stroke_corner_square"
-            android:padding="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"/>
-    </LinearLayout>
+            app:layout_constraintTop_toBottomOf="@id/text2">
+
+        </com.sbuddy.sbdApp.util.FlowLayout>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

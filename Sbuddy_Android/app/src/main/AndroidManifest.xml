@@ -61,7 +61,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SearchViewActivity"
+            android:name=".search.view.SearchViewActivity"
             android:exported="false" />
         <activity
             android:name=".post.view.MainActivity"

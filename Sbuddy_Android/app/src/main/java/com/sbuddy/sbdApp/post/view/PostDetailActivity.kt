@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.sbuddy.sbdApp.R
 import com.sbuddy.sbdApp.databinding.ActivityPostDetailBinding
 import com.sbuddy.sbdApp.post.viewmodel.PostViewModel
+import com.sbuddy.sbdApp.util.KeywordView
 
 class PostDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPostDetailBinding
@@ -52,7 +53,7 @@ class PostDetailActivity : AppCompatActivity() {
         val seletedItem = postViewModel.item.value!!
         Log.w("keywordd", "selectedItem : " + seletedItem)
         for (i in 0 until seletedItem.keyword_list.size){
-            val textView = TextView(this)
+            val keywordView = KeywordView(this)
 
             // 레이아웃 파라미터 설정
             val layoutParams = LinearLayout.LayoutParams(
@@ -60,13 +61,10 @@ class PostDetailActivity : AppCompatActivity() {
                 LinearLayout.LayoutParams.WRAP_CONTENT
             )
             layoutParams.setMargins(10, 10, 10, 10)  // 마진 추가
-            textView.layoutParams = layoutParams
+            keywordView.layoutParams = layoutParams
 
-            textView.setPadding(40, 25, 40, 25)
-            textView.setText(seletedItem.keyword_list.get(i).description)
-            textView.setTextColor(android.graphics.Color.parseColor("#998DFF"))
-            textView.background = ContextCompat.getDrawable(this, R.drawable.keyword_rounded_corner)
-            binding.keywordLayout.addView(textView)
+            keywordView.setText(seletedItem.keyword_list.get(i).description)
+            binding.keywordLayout.addView(keywordView)
         }
     }
 

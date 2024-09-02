@@ -1,5 +1,6 @@
 package com.sbuddy.sbdApp.post.view
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentActivity
@@ -7,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.sbuddy.sbdApp.R
+import com.sbuddy.sbdApp.search.view.SearchViewActivity
 import com.sbuddy.sbdApp.databinding.ActivityMainBinding
 import com.sbuddy.sbdApp.post.viewmodel.PostViewModel
 
@@ -51,6 +53,10 @@ class MainActivity : FragmentActivity() {
                 binding.mainTab.getTabAt(position)?.select()
             }
         })
+    }
+
+    fun goSearchActivity(){
+        startActivity(Intent(this, SearchViewActivity::class.java))
     }
 }
 

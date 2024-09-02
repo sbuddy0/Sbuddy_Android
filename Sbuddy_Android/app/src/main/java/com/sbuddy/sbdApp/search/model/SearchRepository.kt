@@ -7,4 +7,5 @@ class SearchRepository {
     private val retrofitService: RetrofitService = SbuddyRetrofitService.instance()
 
     suspend fun popularList() = retrofitService.popularList(mapOf())
+    suspend fun keywordList() = retrofitService.keywordList(mapOf())
 }
