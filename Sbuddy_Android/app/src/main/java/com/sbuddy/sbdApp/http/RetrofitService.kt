@@ -5,6 +5,8 @@ import com.sbuddy.sbdApp.post.model.KeywordResponse
 import com.sbuddy.sbdApp.post.model.PostDetailResponse
 import com.sbuddy.sbdApp.post.model.PostResponse
 import com.sbuddy.sbdApp.search.model.SearchPopularReponse
+import com.sbuddy.sbdApp.search.model.SearchRecentData
+import com.sbuddy.sbdApp.search.model.SearchRecentResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -109,6 +111,18 @@ interface RetrofitService {
     suspend fun popularList(
         @Body params: Map<String, String>
     ): Response<SearchPopularReponse>
+
+    @POST("api/v1/post/search/recent")
+    @Headers("Content-Type: application/json")
+    suspend fun searchRecent(
+        @Body params: Map<String, String>
+    ): Response<SearchRecentResponse>
+
+    @POST("api/v1/post/search/text")
+    @Headers("Content-Type: application/json")
+    suspend fun searchText(
+        @Body params: SearchText
+    ): Response<Any>
 }
 
 // 로그인 유저
@@ -154,6 +168,10 @@ data class Post(
 
 data class Detail(
     @SerializedName(value = "idx_post") var idxPost: Int
+)
+
+data class SearchText(
+    @SerializedName(value = "search") var text: String
 )
 
 

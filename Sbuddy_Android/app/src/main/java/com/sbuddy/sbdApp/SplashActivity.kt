@@ -23,7 +23,7 @@ class SplashActivity : AppCompatActivity() {
         // 로그인 유지가 되어있으면 main으로 로그인 해야되면 로그인 페이지로 이동
         MetaData.token = (ShareData.getStringData(this, ShareData.LOGIN, ShareData.LOGIN_SESSION).toString())
         Log.w("sbuddyy", "token : " + MetaData.token)
-        if(MetaData.token != null){
+        if(MetaData.token != ""){
             MetaData.idxMember = ShareData.getStringData(this, ShareData.LOGIN, ShareData.LOGIN_IDX_MEMBER).toString()
             Handler().postDelayed(Runnable {
                 val intent = Intent(this, MainActivity::class.java)

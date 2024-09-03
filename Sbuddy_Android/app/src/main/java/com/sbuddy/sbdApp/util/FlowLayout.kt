@@ -80,6 +80,17 @@ class FlowLayout @JvmOverloads constructor(
     }
 
     override fun generateLayoutParams(attrs: AttributeSet): LayoutParams {
-        return MarginLayoutParams(context, attrs)
+        return LayoutParams(context, attrs)
+    }
+
+    class LayoutParams : MarginLayoutParams {
+        constructor(width: Int, height: Int) : super(width, height)
+        constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
+    }
+
+    companion object {
+        // Define WRAP_CONTENT and MATCH_PARENT for FlowLayout
+        val WRAP_CONTENT = ViewGroup.LayoutParams.WRAP_CONTENT
+        val MATCH_PARENT = ViewGroup.LayoutParams.MATCH_PARENT
     }
 }

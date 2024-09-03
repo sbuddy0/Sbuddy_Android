@@ -9,6 +9,7 @@ import com.sbuddy.sbdApp.post.listener.LoadListener
 import com.sbuddy.sbdApp.post.model.Keyword
 import com.sbuddy.sbdApp.post.model.PostItem
 import com.sbuddy.sbdApp.search.model.SearchItem
+import com.sbuddy.sbdApp.search.model.SearchRecent
 import com.sbuddy.sbdApp.search.model.SearchRepository
 import kotlinx.coroutines.launch
 
@@ -20,6 +21,8 @@ class SearchViewModel(application: Application): AndroidViewModel(application) {
     private var grouped:Map<String?, List<Keyword>> = HashMap<String?, List<Keyword>>()
     private var _titleKeywords = MutableLiveData<List<Keyword>>()
     private var _subKeywords = MutableLiveData<List<Keyword>>()
+
+    private var _searchRecentList = MutableLiveData<List<SearchRecent>>()
     private var _showToast : MutableLiveData<Boolean> = MutableLiveData(false)
 
     init {
@@ -67,9 +70,29 @@ class SearchViewModel(application: Application): AndroidViewModel(application) {
 
                         _keyWords.value = all
                         Log.e("searchh", "all : " + all)
+                        listener.onLoadFinished()
 
                     }
                 }
+            }
+        }
+    }
+
+    fun searchRecentList(){
+        viewModelScope.launch {
+            val response = repository.searchRecentList()
+            if(response.isSuccessful){
+                Log.d("searchh", "searchRecentList : " + response.body()!!.data.list.toString())
+                searchRecentList.value = response.body()!!.data.list
+            }
+        }
+    }
+
+    fun searchText(text: String){
+        viewModelScope.launch {
+            val response = repository.searchText("title")
+            if(response.isSuccessful){
+                Log.w("searchh", "searchTExt.body : " + response.body())
             }
         }
     }
@@ -79,4 +102,7 @@ class SearchViewModel(application: Application): AndroidViewModel(application) {
 
     val keywords : MutableLiveData<List<Keyword>>
         get() = _keyWords
+
+    val searchRecentList : MutableLiveData<List<SearchRecent>>
+        get() = _searchRecentList
 }

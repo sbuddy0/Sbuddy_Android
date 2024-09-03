@@ -11,8 +11,7 @@ import com.sbuddy.sbdApp.post.model.PostItemAdapter
 import com.sbuddy.sbdApp.search.model.SearchItem
 
 class SearchItemAdapter(private val itemListenr: () -> Unit) : ListAdapter<SearchItem, SearchItemAdapter.ViewHolder>(
-    SearchItemAdapter.SearchItemDiffCallback()
-) {
+    SearchItemAdapter.SearchItemDiffCallback()) {
     inner class ViewHolder(private val binding: SearchItemBinding) :RecyclerView.ViewHolder(binding.root){
         fun bind(searchItem: SearchItem){
             binding.item = searchItem
