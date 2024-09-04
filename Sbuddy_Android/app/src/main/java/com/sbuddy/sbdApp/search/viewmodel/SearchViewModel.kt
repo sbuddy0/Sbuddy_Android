@@ -90,9 +90,9 @@ class SearchViewModel(application: Application): AndroidViewModel(application) {
 
     fun searchText(text: String){
         viewModelScope.launch {
-            val response = repository.searchText("title")
+            val response = repository.searchText(text)
             if(response.isSuccessful){
-                Log.w("searchh", "searchTExt.body : " + response.body())
+                Log.w("textt", "텍스트 검색 결과 : " + response.body())
             }
         }
     }

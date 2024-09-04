@@ -7,6 +7,7 @@ import com.sbuddy.sbdApp.post.model.PostResponse
 import com.sbuddy.sbdApp.search.model.SearchPopularReponse
 import com.sbuddy.sbdApp.search.model.SearchRecentData
 import com.sbuddy.sbdApp.search.model.SearchRecentResponse
+import com.sbuddy.sbdApp.search.model.SearchTextResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call

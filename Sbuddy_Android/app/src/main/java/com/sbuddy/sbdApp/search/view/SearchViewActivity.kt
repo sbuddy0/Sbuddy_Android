@@ -74,7 +74,7 @@ class SearchViewActivity : AppCompatActivity() {
     }
 
     fun searchText(){
-        
+        searchViewModel.searchText(binding.search.text.toString())
     }
 
     fun goBefore(){

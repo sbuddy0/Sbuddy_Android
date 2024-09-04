@@ -220,8 +220,8 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             val response = repository.detail(Detail(idxPost))
             if(response.isSuccessful){
-                Log.d("detaill",  "response : " + response.body())
-                _detail.value = response.body()!!.data
+                Log.d("detaill",  "디테일 결과 : " + response.body())
+//                _detail.value = response.body()!!.data
             }
         }
     }
