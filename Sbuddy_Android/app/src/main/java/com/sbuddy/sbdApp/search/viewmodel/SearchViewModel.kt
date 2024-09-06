@@ -11,6 +11,7 @@ import com.sbuddy.sbdApp.post.model.PostItem
 import com.sbuddy.sbdApp.search.model.SearchItem
 import com.sbuddy.sbdApp.search.model.SearchRecent
 import com.sbuddy.sbdApp.search.model.SearchRepository
+import com.sbuddy.sbdApp.search.model.SearchText
 import kotlinx.coroutines.launch
 
 class SearchViewModel(application: Application): AndroidViewModel(application) {
@@ -21,6 +22,8 @@ class SearchViewModel(application: Application): AndroidViewModel(application) {
     private var grouped:Map<String?, List<Keyword>> = HashMap<String?, List<Keyword>>()
     private var _titleKeywords = MutableLiveData<List<Keyword>>()
     private var _subKeywords = MutableLiveData<List<Keyword>>()
+
+    private var _resultList = MutableLiveData<List<SearchText>>()
 
     private var _searchRecentList = MutableLiveData<List<SearchRecent>>()
     private var _showToast : MutableLiveData<Boolean> = MutableLiveData(false)
@@ -93,6 +96,7 @@ class SearchViewModel(application: Application): AndroidViewModel(application) {
             val response = repository.searchText(text)
             if(response.isSuccessful){
                 Log.w("textt", "텍스트 검색 결과 : " + response.body())
+                _items.value = response.body()!!.data.list
             }
         }
     }
@@ -105,4 +109,7 @@ class SearchViewModel(application: Application): AndroidViewModel(application) {
 
     val searchRecentList : MutableLiveData<List<SearchRecent>>
         get() = _searchRecentList
+
+    val resultList : MutableLiveData<List<SearchText>>
+        get() = _resultList
 }

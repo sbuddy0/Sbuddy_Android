@@ -6,11 +6,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.sbuddy.sbdApp.databinding.SearchItemBinding
-import com.sbuddy.sbdApp.post.model.PostItem
-import com.sbuddy.sbdApp.post.model.PostItemAdapter
 import com.sbuddy.sbdApp.search.model.SearchItem
 
-class SearchItemAdapter(private val itemListenr: () -> Unit) : ListAdapter<SearchItem, SearchItemAdapter.ViewHolder>(
+class SearchItemAdapter(private val itemListenr: Any) : ListAdapter<SearchItem, SearchItemAdapter.ViewHolder>(
     SearchItemAdapter.SearchItemDiffCallback()) {
     inner class ViewHolder(private val binding: SearchItemBinding) :RecyclerView.ViewHolder(binding.root){
         fun bind(searchItem: SearchItem){

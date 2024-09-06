@@ -1,4 +1,8 @@
 package com.sbuddy.sbdApp.chat.viewmodel
 
-class ChatViewModel {
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+
+class ChatViewModel(application: Application) : AndroidViewModel(application) {
+
 }

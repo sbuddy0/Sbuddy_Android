@@ -1,5 +1,7 @@
 package com.sbuddy.sbdApp.search.view
 
+import android.app.appsearch.SearchResult
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -74,7 +76,10 @@ class SearchViewActivity : AppCompatActivity() {
     }
 
     fun searchText(){
-        searchViewModel.searchText(binding.search.text.toString())
+        val intent = Intent(this, SearchResultActivity::class.java)
+        intent.putExtra("txt", binding.search.text.toString())
+        Log.d("textt", "txt: " + binding.search.text)
+        this.startActivity(intent)
     }
 
     fun goBefore(){

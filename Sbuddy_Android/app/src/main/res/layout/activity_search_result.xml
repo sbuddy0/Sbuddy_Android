@@ -8,7 +8,7 @@
             type="com.sbuddy.sbdApp.search.viewmodel.SearchViewModel" />
 
         <variable
-            name="fragment"
+            name="activity"
             type="com.sbuddy.sbdApp.search.view.SearchResultActivity" />
     </data>
 
@@ -37,7 +37,8 @@
                 android:layout_height="30dp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:src="?android:attr/actionModeCloseDrawable"/>
+                android:src="?android:attr/actionModeCloseDrawable"
+                android:onClick="@{() -> activity.goBefore()}"/>
 
             <LinearLayout
                 android:layout_width="0dp"

@@ -123,7 +123,7 @@ interface RetrofitService {
     @Headers("Content-Type: application/json")
     suspend fun searchText(
         @Body params: SearchText
-    ): Response<Any>
+    ): Response<SearchTextResponse>
 }
 
 // 로그인 유저
