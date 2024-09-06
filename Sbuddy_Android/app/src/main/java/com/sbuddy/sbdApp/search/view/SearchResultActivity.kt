@@ -2,6 +2,7 @@ package com.sbuddy.sbdApp.search.view
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -29,11 +30,21 @@ class SearchResultActivity : AppCompatActivity() {
         search()
     }
 
+    override fun onResume() {
+        super.onResume()
+
+    }
+
     fun search(){
         val text = intent.getStringExtra("txt")
         Log.d("textt", "intent text : " + text)
         binding.text.setText("\"" + text + "\"")
-        searchViewModel.searchText(text!!)
+        searchViewModel.searchText(text!!, object:SearchViewModel.SearchViewModelListener{
+            override fun onItemIsNull() {
+                Log.d("resultt", "onItemIsNull")
+                binding.resultNull.visibility = View.VISIBLE
+            }
+        })
     }
 
     fun setObserve(){

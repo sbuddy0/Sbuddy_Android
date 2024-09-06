@@ -33,7 +33,11 @@ class SearchFragment : Fragment() {
         binding.fragment = this
         setRecyclerView()
         setObserve()
-        load()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        searchViewModel.popularList()
     }
 
     fun setRecyclerView(){
@@ -47,9 +51,5 @@ class SearchFragment : Fragment() {
         searchViewModel.items.observe(viewLifecycleOwner){ items ->
             ((binding.recyclerView.adapter) as ListAdapter<*, *>).submitList(items as List<Nothing>?)
         }
-    }
-
-    fun load(){
-        searchViewModel.popularList()
     }
 }

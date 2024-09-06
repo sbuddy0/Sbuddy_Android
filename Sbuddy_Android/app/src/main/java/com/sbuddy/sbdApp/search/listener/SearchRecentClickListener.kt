@@ -1,6 +1,6 @@
 package com.sbuddy.sbdApp.search.listener
 
 interface SearchRecentClickListener {
-    fun onTextClicked(idx: Double)
-    fun onDeleteClicked()
+    fun onTextClicked(text: String )
+    fun onDeleteClicked(idx: Double)
 }

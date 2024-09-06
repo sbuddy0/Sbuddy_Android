@@ -2,6 +2,7 @@ package com.sbuddy.sbdApp.search.viewmodel
 
 import android.app.Application
 import android.util.Log
+import android.widget.SearchView
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -29,6 +30,7 @@ class SearchViewModel(application: Application): AndroidViewModel(application) {
     private var _showToast : MutableLiveData<Boolean> = MutableLiveData(false)
 
     init {
+
     }
 
     fun popularList(){
@@ -81,22 +83,32 @@ class SearchViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
-    fun searchRecentList(){
+    fun searchRecentList(listener: SearchViewModelListener){
         viewModelScope.launch {
             val response = repository.searchRecentList()
             if(response.isSuccessful){
                 Log.d("searchh", "searchRecentList : " + response.body()!!.data.list.toString())
-                searchRecentList.value = response.body()!!.data.list
+                val list = response.body()?.data?.list
+                searchRecentList.value = list
+                Log.w("resultt", "list : " + list)
+                if (list.isNullOrEmpty()) {
+                    listener.onItemIsNull()
+                }
             }
         }
     }
 
-    fun searchText(text: String){
+    fun searchText(text: String, listener: SearchViewModelListener){
         viewModelScope.launch {
             val response = repository.searchText(text)
             if(response.isSuccessful){
                 Log.w("textt", "텍스트 검색 결과 : " + response.body())
-                _items.value = response.body()!!.data.list
+                val list = response.body()?.data?.list
+                items.value = list
+                Log.w("resultt", "list : " + list)
+                if (list.isNullOrEmpty()) {
+                    listener.onItemIsNull()
+                }
             }
         }
     }
@@ -112,4 +124,8 @@ class SearchViewModel(application: Application): AndroidViewModel(application) {
 
     val resultList : MutableLiveData<List<SearchText>>
         get() = _resultList
+
+    interface SearchViewModelListener{
+        fun onItemIsNull()
+    }
 }

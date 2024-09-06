@@ -17,8 +17,8 @@ class SearchRecentItemAdapter(private val listener: SearchRecentClickListener): 
             binding.executePendingBindings()
 
             val item = binding.item as SearchRecent
-            binding.text.setOnClickListener{listener.onTextClicked(item.idx_search_text)}
-            binding.delete.setOnClickListener{listener.onDeleteClicked()}
+            binding.text.setOnClickListener{listener.onTextClicked(item.search_text)}
+            binding.delete.setOnClickListener{listener.onDeleteClicked(item.idx_search_text)}
         }
     }
 

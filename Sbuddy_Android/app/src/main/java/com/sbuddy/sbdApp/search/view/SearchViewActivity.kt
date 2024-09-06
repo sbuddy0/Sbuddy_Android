@@ -1,10 +1,12 @@
 package com.sbuddy.sbdApp.search.view
 
 import android.app.appsearch.SearchResult
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.LinearLayout
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -21,6 +23,7 @@ class SearchViewActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySearchViewBinding
     private lateinit var searchViewModel: SearchViewModel
+    private lateinit var context: Context
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,60 +32,89 @@ class SearchViewActivity : AppCompatActivity() {
         binding.viewModel = searchViewModel
         binding.lifecycleOwner = this
         binding.activity = this
+        context = this
 
         setRecyclerView()
         setObserve()
         addKeywordView()
-        searchViewModel.searchRecentList()
-    }
-
-    fun setRecyclerView(){
-        binding.recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        binding.recyclerView.adapter = SearchRecentItemAdapter(object:SearchRecentClickListener{
-            override fun onTextClicked(idx: Double) {
-                TODO("Not yet implemented")
+        searchViewModel.searchRecentList(object : SearchViewModel.SearchViewModelListener {
+            override fun onItemIsNull() {
+                binding.recentResultNull.visibility = View.VISIBLE
             }
 
-            override fun onDeleteClicked() {
+        })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        searchViewModel.searchRecentList(object : SearchViewModel.SearchViewModelListener {
+            override fun onItemIsNull() {
+                binding.recentResultNull.visibility = View.VISIBLE
+            }
+
+        })
+    }
+
+    fun setRecyclerView() {
+        binding.recyclerView.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        binding.recyclerView.adapter = SearchRecentItemAdapter(object : SearchRecentClickListener {
+            override fun onTextClicked(text: String) {
+                val intent = Intent(context, SearchResultActivity::class.java)
+                intent.putExtra("txt", text)
+                startActivity(intent)
+            }
+
+            override fun onDeleteClicked(idx: Double) {
                 TODO("Not yet implemented")
             }
         })
         binding.recyclerView.setHasFixedSize(true)
     }
-    fun setObserve(){
-        searchViewModel.searchRecentList.observe(this){
+
+    fun setObserve() {
+        searchViewModel.searchRecentList.observe(this) {
             ((binding.recyclerView.adapter) as ListAdapter<*, *>).submitList(searchViewModel.searchRecentList.value as List<Nothing>?)
-            Log.d("searchh", "searchViewModel.searchRecentList.value : " + searchViewModel.searchRecentList.value )
+            Log.d(
+                "searchh",
+                "searchViewModel.searchRecentList.value : " + searchViewModel.searchRecentList.value
+            )
         }
     }
 
 
-
-    fun addKeywordView(){
-        searchViewModel.loadKeywords{
+    fun addKeywordView() {
+        searchViewModel.loadKeywords {
             val keywords = searchViewModel.keywords
-            for(i in 0 until keywords.value!!.size){
+            for (i in 0 until keywords.value!!.size) {
                 var keywordView = KeywordView(this)
+                val text = keywords.value!!.get(i).keyword
+
+                keywordView.setOnClickListener {
+                    val intent = Intent(this, SearchResultActivity::class.java)
+                    intent.putExtra("txt", text)
+                    startActivity(intent)
+                }
                 val layoutParams = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
                 )
                 layoutParams.setMargins(20, 20, 20, 20)
                 keywordView.layoutParams = layoutParams
-                keywordView.setText(keywords.value!!.get(i).keyword)
+                keywordView.setText(text)
                 binding.keywordLayout.addView(keywordView)
             }
         }
     }
 
-    fun searchText(){
+    fun searchText() {
         val intent = Intent(this, SearchResultActivity::class.java)
         intent.putExtra("txt", binding.search.text.toString())
         Log.d("textt", "txt: " + binding.search.text)
         this.startActivity(intent)
     }
 
-    fun goBefore(){
+    fun goBefore() {
         finish()
     }
 }
