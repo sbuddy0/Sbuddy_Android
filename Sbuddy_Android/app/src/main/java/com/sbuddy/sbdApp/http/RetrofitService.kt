@@ -1,6 +1,7 @@
 package com.sbuddy.sbdApp.http
 
 import com.google.gson.annotations.SerializedName
+import com.sbuddy.sbdApp.chat.model.ChatResponse
 import com.sbuddy.sbdApp.post.model.KeywordResponse
 import com.sbuddy.sbdApp.post.model.PostDetailResponse
 import com.sbuddy.sbdApp.post.model.PostResponse
@@ -124,6 +125,12 @@ interface RetrofitService {
     suspend fun searchText(
         @Body params: SearchText
     ): Response<SearchTextResponse>
+
+    @POST("api/v1/message/list")
+    @Headers("Content-Type: application/json")
+    suspend fun messageList(
+        @Body params: Message
+    ):Response<ChatResponse>
 }
 
 // 로그인 유저
@@ -173,6 +180,10 @@ data class Detail(
 
 data class SearchText(
     @SerializedName(value = "search") var text: String
+)
+
+data class Message(
+    @SerializedName(value = "message_type") var type: String
 )
 
 

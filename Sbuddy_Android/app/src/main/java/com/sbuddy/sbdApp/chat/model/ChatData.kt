@@ -1,4 +1,5 @@
 package com.sbuddy.sbdApp.chat.model
 
-class ChatData {
-}
+data class ChatData(
+    val list: List<Chat>
+)

@@ -5,21 +5,24 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.sbuddy.sbdApp.databinding.SearchItemBinding
-import com.sbuddy.sbdApp.search.model.SearchItem
+import com.sbuddy.sbdApp.chat.listener.ChatItemListener
+import com.sbuddy.sbdApp.chat.model.Chat
+import com.sbuddy.sbdApp.databinding.ChatItemBinding
 
-class ChatItemAdapter(private val itemListenr: Any) : ListAdapter<SearchItem, ChatItemAdapter.ViewHolder>(
-    ChatItemAdapter.SearchItemDiffCallback()) {
+class ChatReceivedItemAdapter(private val listener: ChatItemListener) : ListAdapter<Chat, ChatReceivedItemAdapter.ViewHolder>(
+    ChatReceivedItemAdapter.ChatReceivedItemDiffCallback()) {
     inner class ViewHolder(private val binding: ChatItemBinding) : RecyclerView.ViewHolder(binding.root){
-        fun bind(searchItem: SearchItem){
-            binding.item = searchItem
+        fun bind(chatItem: Chat){
+            binding.item = chatItem
             binding.executePendingBindings()
+
+            binding.itemLayout.setOnClickListener{ listener.onItemClicked(chatItem.idx_message) }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = SearchItemBinding.inflate(inflater, parent, false)
+        val binding = ChatItemBinding.inflate(inflater, parent, false)
         return ViewHolder(binding)
     }
 
@@ -28,12 +31,12 @@ class ChatItemAdapter(private val itemListenr: Any) : ListAdapter<SearchItem, Ch
         holder.bind(item)
     }
 
-    class SearchItemDiffCallback : DiffUtil.ItemCallback<SearchItem>() {
-        override fun areItemsTheSame(oldItem: SearchItem, newItem: SearchItem): Boolean {
-            return oldItem.idx_post == newItem.idx_post // 아이템의 고유 식별자를 비교하여 같은 아이템인지 확인
+    class ChatReceivedItemDiffCallback : DiffUtil.ItemCallback<Chat>() {
+        override fun areItemsTheSame(oldItem: Chat, newItem: Chat): Boolean {
+            return oldItem.idx_message == newItem.idx_message// 아이템의 고유 식별자를 비교하여 같은 아이템인지 확인
         }
 
-        override fun areContentsTheSame(oldItem: SearchItem, newItem: SearchItem): Boolean {
+        override fun areContentsTheSame(oldItem: Chat, newItem: Chat): Boolean {
             return oldItem == newItem // 아이템의 내용이 같은지 비교
         }
     }

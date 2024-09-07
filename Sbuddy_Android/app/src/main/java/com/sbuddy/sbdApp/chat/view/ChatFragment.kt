@@ -7,11 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import com.sbuddy.sbdApp.R
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.ListAdapter
+import com.sbuddy.sbdApp.chat.adapter.ChatReceivedItemAdapter
+import com.sbuddy.sbdApp.chat.listener.ChatItemListener
 import com.sbuddy.sbdApp.chat.viewmodel.ChatViewModel
 import com.sbuddy.sbdApp.databinding.FragmentChatBinding
-import com.sbuddy.sbdApp.databinding.FragmentFeedBinding
-import com.sbuddy.sbdApp.post.viewmodel.PostViewModel
 
 class ChatFragment : Fragment() {
     private lateinit var binding: FragmentChatBinding
@@ -35,12 +36,27 @@ class ChatFragment : Fragment() {
         setObserve()
     }
 
-    fun setRecyclerView(){
+    override fun onResume() {
+        super.onResume()
+        chatViewModel.receivedChatList("R")
+        chatViewModel.sendChatList("S")
+    }
 
+    fun setRecyclerView(){
+        binding.recyclerViewReceive.layoutManager = LinearLayoutManager(context)
+        binding.recyclerViewReceive.adapter = ChatReceivedItemAdapter(object : ChatItemListener{
+            override fun onItemClicked(idx: Int) {
+                TODO("Not yet implemented")
+            }
+
+        })
+        binding.recyclerViewReceive.setHasFixedSize(true)
     }
 
     fun setObserve(){
-
+        chatViewModel.receivedChats.observe(viewLifecycleOwner){ items ->
+            ((binding.recyclerViewReceive.adapter) as ListAdapter<*, *>).submitList(items as List<Nothing>?)
+        }
     }
 
     fun goWriteActivity(){
