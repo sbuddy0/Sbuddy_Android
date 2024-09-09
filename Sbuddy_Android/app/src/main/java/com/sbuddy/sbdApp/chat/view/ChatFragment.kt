@@ -46,7 +46,7 @@ class ChatFragment : Fragment() {
         binding.recyclerViewReceive.layoutManager = LinearLayoutManager(context)
         binding.recyclerViewReceive.adapter = ChatReceivedItemAdapter(object : ChatItemListener{
             override fun onItemClicked(idx: Int) {
-                TODO("Not yet implemented")
+                binding.contentLayout.setText(chatViewModel.receivedChats.value?.get(idx)?.content)
             }
 
         })
