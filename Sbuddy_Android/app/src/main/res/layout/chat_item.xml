@@ -19,8 +19,6 @@
         android:id="@+id/item_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:layout_marginTop="1dp"
         android:background="@color/white">
 
         <TextView
@@ -33,7 +31,9 @@
             android:textStyle="bold"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/content"/>
+            app:layout_constraintBottom_toTopOf="@id/content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"/>
 
 
 
@@ -47,6 +47,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/sender_nickname"
             app:layout_constraintEnd_toEndOf="parent"
             android:text="@{item.send_date}"
+            android:layout_marginRight="10dp"
             />
 
         <TextView
@@ -59,7 +60,18 @@
             android:textSize="15sp"
             android:textColor="@color/black"
             android:text="@{item.content}"
-            android:maxLines="2"/>
+            android:maxLines="2"
+            android:layout_marginLeft="10dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0.7dp"
+            android:layout_marginTop="10dp"
+            android:background="#CFCFCF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/content"
+           />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

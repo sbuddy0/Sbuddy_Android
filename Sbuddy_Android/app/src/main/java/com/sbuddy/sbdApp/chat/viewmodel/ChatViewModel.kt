@@ -14,6 +14,8 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
 
     private var _receivedChats = MutableLiveData<List<Chat>>()
     private var _sendChats = MutableLiveData<List<Chat>>()
+    private var _buttonIsReceived = MutableLiveData<Boolean>(true)
+    private var _buttonIsSend = MutableLiveData<Boolean>(false)
 
     fun receivedChatList(type: String){
         viewModelScope.launch {
@@ -42,10 +44,26 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    fun selectReceivedBtn(){
+        buttonIsReceived.value = true
+        buttonIsSend.value = false
+    }
+
+    fun selectSendBtn(){
+        buttonIsSend.value = true
+        buttonIsReceived.value = false
+    }
+
     val receivedChats: MutableLiveData<List<Chat>>
         get() = _receivedChats
 
     val sendChats: MutableLiveData<List<Chat>>
         get() = _sendChats
+
+    val buttonIsReceived: MutableLiveData<Boolean>
+        get() = _buttonIsReceived
+
+    val buttonIsSend: MutableLiveData<Boolean>
+        get() = _buttonIsSend
 
 }
