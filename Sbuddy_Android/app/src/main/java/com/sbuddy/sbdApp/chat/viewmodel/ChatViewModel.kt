@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.sbuddy.sbdApp.chat.model.Chat
+import com.sbuddy.sbdApp.chat.model.ChatMember
 import com.sbuddy.sbdApp.chat.model.ChatRepository
 import kotlinx.coroutines.launch
 
@@ -16,6 +17,11 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
     private var _sendChats = MutableLiveData<List<Chat>>()
     private var _buttonIsReceived = MutableLiveData<Boolean>(true)
     private var _buttonIsSend = MutableLiveData<Boolean>(false)
+
+    private var _memberList = MutableLiveData<List<ChatMember>>()
+    private var _member: Int = 0
+
+    private var _isMsgSend=  MutableLiveData<Boolean>(false)
 
     fun receivedChatList(type: String){
         viewModelScope.launch {
@@ -54,6 +60,33 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
         buttonIsReceived.value = false
     }
 
+    fun member(text: String){
+        viewModelScope.launch {
+            val response = repository.member(text)
+            if(response.isSuccessful){
+                if(response.code() == 200){
+                    _memberList.value = response.body()?.data?.list
+                }
+            }
+        }
+    }
+
+    fun sendMessage(content: String){
+        viewModelScope.launch {
+            val response = repository.sendMessage(_member, content)
+            if(response.isSuccessful){
+                if(response.code() == 200){
+                    _isMsgSend.value = true
+                }
+            }
+
+        }
+    }
+
+    fun setCurrentMember(idx: Int){
+        _member = idx
+    }
+
     val receivedChats: MutableLiveData<List<Chat>>
         get() = _receivedChats
 
@@ -65,5 +98,12 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
 
     val buttonIsSend: MutableLiveData<Boolean>
         get() = _buttonIsSend
+
+    val memberList: MutableLiveData<List<ChatMember>>
+        get() = _memberList
+
+    val isMsgSend: MutableLiveData<Boolean>
+        get() = _isMsgSend
+
 
 }

@@ -39,9 +39,6 @@ class ChatFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.fragment = this
 
-        chatViewModel.receivedChatList("R")
-        chatViewModel.sendChatList("S")
-
         setReceivedRecyclerView()
         setSendRecyclerView()
         setObserve()
@@ -50,6 +47,8 @@ class ChatFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
+        chatViewModel.receivedChatList("R")
+        chatViewModel.sendChatList("S")
     }
 
     fun setReceivedRecyclerView(){
