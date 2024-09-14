@@ -1,6 +1,7 @@
 package com.sbuddy.sbdApp.chat.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -39,6 +40,7 @@ class ChatWriteActivity : AppCompatActivity() {
         binding.recyclerView.layoutManager =  LinearLayoutManager(this)
         binding.recyclerView.adapter = ChatMemberAdapter(object: ChatMemberListener {
             override fun onItemClicked(idx: Int, nickname: String) {
+                Log.d("chatt", " idx: " + idx)
                 chatViewModel.setCurrentMember(idx)
                 binding.userText.setText(nickname)
                 binding.recyclerView.visibility = View.GONE

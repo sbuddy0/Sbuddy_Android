@@ -144,6 +144,12 @@ interface RetrofitService {
     suspend fun sendMessage(
         @Body params: MessageSend
     ):Response<ChatMemberResponse>
+
+    @POST("api/v1/mypage/detail")
+    @Headers("Content-Type: application/json")
+    suspend fun myDetail(
+        @Body params: Map<String, String>
+    ):Response<Any>
 }
 
 // 로그인 유저
