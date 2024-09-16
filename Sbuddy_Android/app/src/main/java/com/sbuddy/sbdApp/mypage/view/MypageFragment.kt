@@ -6,10 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.ListAdapter
 import com.sbuddy.sbdApp.R
+import com.sbuddy.sbdApp.databinding.FragmentMypageBinding
+import com.sbuddy.sbdApp.mypage.adapter.KeywordItemAdapter
 import com.sbuddy.sbdApp.mypage.viewmodel.MypageViewModel
 
 class MypageFragment : Fragment() {
+    private lateinit var binding: FragmentMypageBinding
     private lateinit var mypageViewModel: MypageViewModel
 
     override fun onCreateView(
@@ -17,18 +22,36 @@ class MypageFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_mypage, container, false)
+        binding = FragmentMypageBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mypageViewModel = ViewModelProvider(this)[MypageViewModel::class.java]
+        binding.viewModel = mypageViewModel
+        binding.lifecycleOwner = this
+        binding.fragment = this
 
+        setKeywordRecyclerView()
+        setObserve()
     }
 
     override fun onResume() {
         super.onResume()
 
         mypageViewModel.myDetail()
+    }
+
+    fun setKeywordRecyclerView(){
+        binding.keywordRecyclerview.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        binding.keywordRecyclerview.adapter = KeywordItemAdapter()
+        binding.keywordRecyclerview.setHasFixedSize(true)
+    }
+
+    fun setObserve(){
+        mypageViewModel.mypageData.observe(viewLifecycleOwner){
+            ((binding.keywordRecyclerview.adapter) as ListAdapter<*, *>).submitList(mypageViewModel.mypageData.value?.keyword as List<Nothing>?)
+        }
     }
 }

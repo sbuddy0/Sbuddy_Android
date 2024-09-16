@@ -3,6 +3,7 @@ package com.sbuddy.sbdApp.http
 import com.google.gson.annotations.SerializedName
 import com.sbuddy.sbdApp.chat.model.ChatMemberResponse
 import com.sbuddy.sbdApp.chat.model.ChatResponse
+import com.sbuddy.sbdApp.mypage.model.MypageResponse
 import com.sbuddy.sbdApp.post.model.KeywordResponse
 import com.sbuddy.sbdApp.post.model.PostDetailResponse
 import com.sbuddy.sbdApp.post.model.PostResponse
@@ -149,7 +150,7 @@ interface RetrofitService {
     @Headers("Content-Type: application/json")
     suspend fun myDetail(
         @Body params: Map<String, String>
-    ):Response<Any>
+    ):Response<MypageResponse>
 }
 
 // 로그인 유저
