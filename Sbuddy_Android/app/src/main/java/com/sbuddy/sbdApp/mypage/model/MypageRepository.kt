@@ -7,4 +7,6 @@ class MypageRepository {
     private val retrofitService: RetrofitService = SbuddyRetrofitService.instance()
 
     suspend fun myDetail() = retrofitService.myDetail(mapOf())
+    suspend fun myLikeList() = retrofitService.myLikeList(mapOf())
+    suspend fun myWriteList() = retrofitService.myWriteList(mapOf())
 }
