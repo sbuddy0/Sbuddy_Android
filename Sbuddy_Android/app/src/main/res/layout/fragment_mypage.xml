@@ -92,28 +92,28 @@
             app:layout_constraintTop_toBottomOf="@id/profile_layout">
 
             <TextView
-                android:id="@+id/received_btn"
+                android:id="@+id/like_select_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
                 android:background="@drawable/button_rounded_corner_rectangle"
                 android:gravity="center"
-                android:onClick="@{}"
                 android:text="좋아요 한 글"
                 android:textColor="@color/white"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:onClick="@{() -> viewModel.selectLikeBtn()}"/>
 
             <TextView
-                android:id="@+id/send_btn"
+                android:id="@+id/write_select_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_weight="1"
                 android:background="@drawable/button_rounded_corner_rectangle_gray"
                 android:gravity="center"
-                android:onClick="@{}"
                 android:text="내가 쓴 글"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:onClick="@{() -> viewModel.selectWriteBtn()}"/>
 
         </LinearLayout>
 
