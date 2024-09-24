@@ -39,18 +39,19 @@ class SearchResultActivity : AppCompatActivity() {
         val text = intent.getStringExtra("txt")
         Log.d("textt", "intent text : " + text)
         binding.text.setText("\"" + text + "\"")
-        searchViewModel.searchText(text!!, object:SearchViewModel.SearchViewModelListener{
-            override fun onItemIsNull() {
-                Log.d("resultt", "onItemIsNull")
-                binding.resultNull.visibility = View.VISIBLE
-            }
-        })
+        searchViewModel.searchText(text!!)
     }
 
     fun setObserve(){
         searchViewModel.items.observe(this){
             ((binding.recyclerView.adapter) as ListAdapter<*, *>).submitList(searchViewModel.items.value as List<Nothing>?)
             Log.d("searchh", "searchViewModel.searchRecentList.value : " + searchViewModel.items.value )
+        }
+
+        searchViewModel.searchTextIsNull.observe(this){
+            if(it){
+                binding.resultNull.visibility = View.VISIBLE
+            }
         }
     }
 

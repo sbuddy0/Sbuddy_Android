@@ -29,6 +29,9 @@ class SearchViewModel(application: Application): AndroidViewModel(application) {
     private var _searchRecentList = MutableLiveData<List<SearchRecent>>()
     private var _showToast : MutableLiveData<Boolean> = MutableLiveData(false)
 
+    private var _recentIsNull : MutableLiveData<Boolean> = MutableLiveData(false)
+    private var _searchTextIsNull : MutableLiveData<Boolean> = MutableLiveData(false)
+
     init {
 
     }
@@ -83,7 +86,7 @@ class SearchViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
-    fun searchRecentList(listener: SearchViewModelListener){
+    fun searchRecentList(){
         viewModelScope.launch {
             val response = repository.searchRecentList()
             if(response.isSuccessful){
@@ -92,13 +95,26 @@ class SearchViewModel(application: Application): AndroidViewModel(application) {
                 searchRecentList.value = list
                 Log.w("resultt", "list : " + list)
                 if (list.isNullOrEmpty()) {
-                    listener.onItemIsNull()
+                    _recentIsNull.value = true
+                }else{
+                    _recentIsNull.value = false
                 }
             }
         }
     }
 
-    fun searchText(text: String, listener: SearchViewModelListener){
+    fun deleteRecent(idx: Int){
+        viewModelScope.launch {
+            val response = repository.deleteRecent(idx)
+            if(response.isSuccessful){
+                searchRecentList()
+            }else{
+                _showToast.value = true
+            }
+        }
+    }
+
+    fun searchText(text: String){
         viewModelScope.launch {
             val response = repository.searchText(text)
             if(response.isSuccessful){
@@ -107,7 +123,7 @@ class SearchViewModel(application: Application): AndroidViewModel(application) {
                 items.value = list
                 Log.w("resultt", "list : " + list)
                 if (list.isNullOrEmpty()) {
-                    listener.onItemIsNull()
+                    searchTextIsNull.value = true
                 }
             }
         }
@@ -125,7 +141,13 @@ class SearchViewModel(application: Application): AndroidViewModel(application) {
     val resultList : MutableLiveData<List<SearchText>>
         get() = _resultList
 
-    interface SearchViewModelListener{
-        fun onItemIsNull()
-    }
+    val recentIsNull : MutableLiveData<Boolean>
+        get() = _recentIsNull
+
+    val searchTextIsNull : MutableLiveData<Boolean>
+        get() = _searchTextIsNull
+
+    val showToast: MutableLiveData<Boolean>
+        get() = _showToast
+
 }

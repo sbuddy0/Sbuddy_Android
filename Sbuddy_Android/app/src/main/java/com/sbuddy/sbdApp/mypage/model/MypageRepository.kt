@@ -1,5 +1,6 @@
 package com.sbuddy.sbdApp.mypage.model
 
+import com.sbuddy.sbdApp.http.Keyword
 import com.sbuddy.sbdApp.http.Like
 import com.sbuddy.sbdApp.http.RetrofitService
 import com.sbuddy.sbdApp.http.SbuddyRetrofitService
@@ -13,4 +14,6 @@ class MypageRepository {
     suspend fun postLike(like: Like) = retrofitService.like(like)
     suspend fun postcancelLike(like: Like) = retrofitService.cancelLike(like)
     suspend fun postDelete(like: Like) = retrofitService.delete(like)
+    suspend fun keywordList() = retrofitService.keywordList(mapOf())
+    suspend fun upadateKeyword(keyword: String) = retrofitService.updateKeyword(Keyword(keyword))
 }

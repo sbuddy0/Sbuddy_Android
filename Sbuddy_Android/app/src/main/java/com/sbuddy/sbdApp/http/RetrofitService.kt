@@ -123,6 +123,12 @@ interface RetrofitService {
         @Body params: Map<String, String>
     ): Response<SearchRecentResponse>
 
+    @POST("api/v1/post/delete/recent")
+    @Headers("Content-Type: application/json")
+    suspend fun deleteRecent(
+        @Body params: RecentTextIdx
+    ): Response<Any>
+
     @POST("api/v1/post/search/text")
     @Headers("Content-Type: application/json")
     suspend fun searchText(
@@ -164,6 +170,12 @@ interface RetrofitService {
     suspend fun myWriteList(
         @Body params: Map<String, String>
     ):Response<MyLikeResponse>
+
+    @POST("api/v1/mypage/modify/keyword")
+    @Headers("Content-Type: application/json")
+    suspend fun updateKeyword(
+        @Body params: Keyword
+    ): Response<Any>
 }
 
 // 로그인 유저
@@ -215,6 +227,10 @@ data class SearchText(
     @SerializedName(value = "search") var text: String
 )
 
+data class RecentTextIdx(
+    @SerializedName(value = "idx_search_text") var idx: Int
+)
+
 data class Message(
     @SerializedName(value = "message_type") var type: String
 )
@@ -228,6 +244,10 @@ data class MessageSend(
     @SerializedName(value = "title") var title: String,
     @SerializedName(value = "content") var content: String,
     @SerializedName(value = "idx_reply") var idxReply: String
+)
+
+data class Keyword(
+    @SerializedName(value = "keyword") var keyword: String
 )
 
 

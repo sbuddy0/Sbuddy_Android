@@ -1,5 +1,6 @@
 package com.sbuddy.sbdApp.search.model
 
+import com.sbuddy.sbdApp.http.RecentTextIdx
 import com.sbuddy.sbdApp.http.RetrofitService
 import com.sbuddy.sbdApp.http.SbuddyRetrofitService
 import com.sbuddy.sbdApp.http.SearchText
@@ -10,5 +11,7 @@ class SearchRepository {
     suspend fun popularList() = retrofitService.popularList(mapOf())
     suspend fun keywordList() = retrofitService.keywordList(mapOf())
     suspend fun searchRecentList() = retrofitService.searchRecent(mapOf())
+    suspend fun deleteRecent(idx: Int) = retrofitService.deleteRecent(RecentTextIdx(idx))
     suspend fun searchText(text: String) = retrofitService.searchText(SearchText(text) )
+
 }

@@ -1,8 +1,10 @@
 package com.sbuddy.sbdApp.mypage.view
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,11 +18,7 @@ import com.sbuddy.sbdApp.databinding.FragmentMypageBinding
 import com.sbuddy.sbdApp.mypage.adapter.KeywordItemAdapter
 import com.sbuddy.sbdApp.mypage.model.MyLike
 import com.sbuddy.sbdApp.mypage.viewmodel.MypageViewModel
-import com.sbuddy.sbdApp.post.adapter.PostItemAdapter
-import com.sbuddy.sbdApp.post.listener.PostItemClickListener
-import com.sbuddy.sbdApp.post.model.PostItem
 import com.sbuddy.sbdApp.post.view.PostDetailActivity
-import com.sbuddy.sbdApp.post.viewmodel.PostViewModel
 
 class MypageFragment : Fragment() {
     private lateinit var binding: FragmentMypageBinding
@@ -36,7 +34,6 @@ class MypageFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         mypageViewModel = ViewModelProvider(this)[MypageViewModel::class.java]
         binding.viewModel = mypageViewModel
         binding.lifecycleOwner = this
@@ -44,6 +41,10 @@ class MypageFragment : Fragment() {
 
         setRecyclerView()
         setObserve()
+
+        // 초기 UI 설정
+        updateLikeButtonUI(mypageViewModel.buttonIsLike.value == true)
+        updateWriteButtonUI(mypageViewModel.buttonIsWrite.value == true)
     }
 
     override fun onResume() {
@@ -122,32 +123,64 @@ class MypageFragment : Fragment() {
             ((binding.likeRecyclerview.adapter) as ListAdapter<*, *>).submitList(mypageViewModel.myLikeList.value as List<Nothing>?)
         }
 
-        mypageViewModel.myWriteList.observe(viewLifecycleOwner){
+        mypageViewModel.myWriteList.observe(viewLifecycleOwner) {
             ((binding.myWriteRecyclerview.adapter) as ListAdapter<*, *>).submitList(mypageViewModel.myWriteList.value as List<Nothing>?)
         }
 
-        mypageViewModel.buttonIsLike.observe(viewLifecycleOwner){
-            if(it){
-                binding.likeSelectBtn.background = ContextCompat.getDrawable(requireContext(), R.drawable.button_rounded_corner_rectangle)
-                binding.likeSelectBtn.setTextColor(android.graphics.Color.WHITE)
-                binding.likeRecyclerview.visibility = View.VISIBLE
-            }else{
-                binding.writeSelectBtn.background = ContextCompat.getDrawable(requireContext(), R.drawable.button_rounded_corner_rectangle_gray)
-                binding.writeSelectBtn.setTextColor(android.graphics.Color.DKGRAY)
-                binding.likeRecyclerview.visibility = View.GONE
-            }
+        mypageViewModel.buttonIsLike.observe(viewLifecycleOwner) {
+//            if (it) {
+//                binding.likeBtn.background = ContextCompat.getDrawable(
+//                    requireContext(),
+//                    R.drawable.button_rounded_corner_rectangle
+//                )
+//                binding.likeBtn.setTextColor(android.graphics.Color.WHITE)
+//                binding.likeRecyclerview.visibility = View.VISIBLE
+//            } else {
+//                binding.writeBtn.background = ContextCompat.getDrawable(
+//                    requireContext(),
+//                    R.drawable.button_rounded_corner_rectangle_gray
+//                )
+//                binding.writeBtn.setTextColor(android.graphics.Color.DKGRAY)
+//                binding.likeRecyclerview.visibility = View.GONE
+//            }
+            updateLikeButtonUI(it)
         }
 
-        mypageViewModel.buttonIsWrite.observe(viewLifecycleOwner){
-            if(it){
-                binding.writeSelectBtn.background = ContextCompat.getDrawable(requireContext(), R.drawable.button_rounded_corner_rectangle)
-                binding.writeSelectBtn.setTextColor(android.graphics.Color.WHITE)
-                binding.myWriteRecyclerview.visibility = View.VISIBLE
-            }else{
-                binding.likeSelectBtn.background = ContextCompat.getDrawable(requireContext(), R.drawable.button_rounded_corner_rectangle_gray)
-                binding.writeSelectBtn.setTextColor(android.graphics.Color.DKGRAY)
-                binding.myWriteRecyclerview.visibility = View.GONE
-            }
+        mypageViewModel.buttonIsWrite.observe(viewLifecycleOwner) {
+//            if (it) {
+//                binding.writeBtn.background = ContextCompat.getDrawable(
+//                    requireContext(),
+//                    R.drawable.button_rounded_corner_rectangle
+//                )
+//                binding.writeBtn.setTextColor(android.graphics.Color.WHITE)
+//                binding.myWriteRecyclerview.visibility = View.VISIBLE
+//            } else {
+//                binding.likeBtn.background = ContextCompat.getDrawable(
+//                    requireContext(),
+//                    R.drawable.button_rounded_corner_rectangle_gray
+//                )
+//                binding.writeBtn.setTextColor(android.graphics.Color.DKGRAY)
+//                binding.myWriteRecyclerview.visibility = View.GONE
+//            }
+            updateWriteButtonUI(it)
         }
+    }
+
+    private fun updateLikeButtonUI(isLiked: Boolean) {
+        val backgroundRes = if (isLiked) R.drawable.button_rounded_corner_rectangle else R.drawable.button_rounded_corner_rectangle_gray
+        binding.likeBtn.background = ContextCompat.getDrawable(requireContext(), backgroundRes)
+        binding.likeBtn.setTextColor(if (isLiked) Color.WHITE else Color.DKGRAY)
+        binding.likeRecyclerview.visibility = if (isLiked) View.VISIBLE else View.GONE
+    }
+
+    private fun updateWriteButtonUI(isWritten: Boolean) {
+        val backgroundRes = if (isWritten) R.drawable.button_rounded_corner_rectangle else R.drawable.button_rounded_corner_rectangle_gray
+        binding.writeBtn.background = ContextCompat.getDrawable(requireContext(), backgroundRes)
+        binding.writeBtn.setTextColor(if (isWritten) Color.WHITE else Color.DKGRAY)
+        binding.myWriteRecyclerview.visibility = if (isWritten) View.VISIBLE else View.GONE
+    }
+
+    fun goKeywordActivity(){
+        startActivity(Intent(context, KeywordActivity::class.java))
     }
 }

@@ -18,6 +18,7 @@ import com.sbuddy.sbdApp.search.adapter.SearchRecentItemAdapter
 import com.sbuddy.sbdApp.search.listener.SearchRecentClickListener
 import com.sbuddy.sbdApp.search.viewmodel.SearchViewModel
 import com.sbuddy.sbdApp.util.KeywordView
+import com.sbuddy.sbdApp.util.ToastMessage
 
 class SearchViewActivity : AppCompatActivity() {
 
@@ -37,22 +38,12 @@ class SearchViewActivity : AppCompatActivity() {
         setRecyclerView()
         setObserve()
         addKeywordView()
-        searchViewModel.searchRecentList(object : SearchViewModel.SearchViewModelListener {
-            override fun onItemIsNull() {
-                binding.recentResultNull.visibility = View.VISIBLE
-            }
-
-        })
+        searchViewModel.searchRecentList()
     }
 
     override fun onResume() {
         super.onResume()
-        searchViewModel.searchRecentList(object : SearchViewModel.SearchViewModelListener {
-            override fun onItemIsNull() {
-                binding.recentResultNull.visibility = View.VISIBLE
-            }
-
-        })
+        searchViewModel.searchRecentList()
     }
 
     fun setRecyclerView() {
@@ -66,7 +57,7 @@ class SearchViewActivity : AppCompatActivity() {
             }
 
             override fun onDeleteClicked(idx: Double) {
-                TODO("Not yet implemented")
+                searchViewModel.deleteRecent(idx.toInt())
             }
         })
         binding.recyclerView.setHasFixedSize(true)
@@ -80,6 +71,23 @@ class SearchViewActivity : AppCompatActivity() {
                 "searchViewModel.searchRecentList.value : " + searchViewModel.searchRecentList.value
             )
         }
+
+        searchViewModel.recentIsNull.observe(this){
+            if(it){
+                binding.recentResultNull.visibility = View.VISIBLE
+            }else{
+                binding.recentResultNull.visibility = View.GONE
+            }
+        }
+
+        searchViewModel.showToast.observe(this){
+            if(it){
+                ToastMessage.show(this, "요청 실패")
+            }
+        }
+//        searchViewModel.searchTextIsNull.observe(this){
+//            binding.recentResultNull.visibility = View.VISIBLE
+//        }
     }
 
 
