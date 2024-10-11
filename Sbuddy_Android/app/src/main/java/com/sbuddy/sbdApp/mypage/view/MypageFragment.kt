@@ -71,13 +71,13 @@ class MypageFragment : Fragment() {
                 }
 
                 override fun onDeleteClicked(myLike: MyLike) {
-                    mypageViewModel.delete(myLike)
+//                    mypageViewModel.delete(myLike)
                 }
 
                 override fun onReviseClicked(myLike: MyLike) {
-                    val intent = Intent(context, MypageReviseActivity::class.java)
-                    intent.putExtra("position", myLike.idx_post)
-                    startActivity(intent)
+//                    val intent = Intent(context, MypageReviseActivity::class.java)
+//                    intent.putExtra("position", myLike.idx_post)
+//                    startActivity(intent)
                 }
 
                 override fun onItemClicked(myLike: MyLike) {
@@ -102,7 +102,7 @@ class MypageFragment : Fragment() {
 
                 override fun onReviseClicked(myLike: MyLike) {
                     val intent = Intent(context, MypageReviseActivity::class.java)
-                    intent.putExtra("idx_post", myLike.idx_post)
+                    intent.putExtra("position", myLike.idx_post)
                     startActivity(intent)
                 }
 

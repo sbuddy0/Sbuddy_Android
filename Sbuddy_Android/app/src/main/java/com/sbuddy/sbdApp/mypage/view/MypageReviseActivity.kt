@@ -52,7 +52,7 @@ class MypageReviseActivity : AppCompatActivity() {
         binding.activity = this
 
         position = intent.getIntExtra("position", 0)
-        Log.e("positionn", "position : " + position)
+        Log.e("positionn", "myLikee : " + position)
         mypageViewModel.detail(position)
 
         setRecyclerView()

@@ -59,6 +59,7 @@ class PostItemAdapter(private val itemListener: PostItemClickListener) : ListAda
                 val position = adapterPosition
                 if(position != RecyclerView.NO_POSITION){
                     val item = getItem(position)
+                    Log.w("myLikee", "item.idxpost : " + item.idx_post)
                     itemListener.onReviseClicked(item)
                 }
             }
@@ -67,6 +68,8 @@ class PostItemAdapter(private val itemListener: PostItemClickListener) : ListAda
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     val item = getItem(position)
+
+
                     itemListener.onItemClicked(item) // item 통째는 쫌;; 나중에 수정할 것
                 }
             }

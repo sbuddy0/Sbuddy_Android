@@ -47,6 +47,10 @@ class MypageViewModel(application: Application) : AndroidViewModel(application) 
     private var _selectedImageUri = MutableLiveData<Uri>()
     private var _detail = MutableLiveData<PostDetailData>()
 
+    init {
+        loadKeywords()
+    }
+
     fun myDetail(){
         viewModelScope.launch {
             val response = repository.myDetail()
