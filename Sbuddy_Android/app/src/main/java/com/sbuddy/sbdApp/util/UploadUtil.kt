@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import com.google.gson.Gson
 import com.sbuddy.sbdApp.http.Post
+import com.sbuddy.sbdApp.http.Update
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -33,6 +34,12 @@ object UploadUtil {
     }
 
     fun createJsonRequestBody(post: Post): RequestBody {
+        val gson = Gson()
+        val jsonString = gson.toJson(post)
+        return RequestBody.create(MediaType.parse("application/json; charset=utf-8"), jsonString)
+    }
+
+    fun createJsonRequestBody(post: Update): RequestBody {
         val gson = Gson()
         val jsonString = gson.toJson(post)
         return RequestBody.create(MediaType.parse("application/json; charset=utf-8"), jsonString)

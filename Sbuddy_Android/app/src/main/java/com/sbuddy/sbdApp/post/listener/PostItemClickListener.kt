@@ -6,6 +6,6 @@ interface PostItemClickListener {
 
     fun onHeartIconClicked(postItem: PostItem)
     fun onDeleteClicked(postItem: PostItem)
-    fun onReviseClicked(postItem: PostItem)
+    fun onReviseClicked(idxMember: Int, position: Int)
     fun onItemClicked(postItem: PostItem)
 }

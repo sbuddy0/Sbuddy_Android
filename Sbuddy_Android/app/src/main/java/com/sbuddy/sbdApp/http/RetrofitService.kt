@@ -99,6 +99,13 @@ interface RetrofitService {
         @Part("param") params: RequestBody
     ):Response<Any>
 
+    @Multipart
+    @POST("api/v1/post/update")
+    suspend fun revise(
+        @Part file: MultipartBody.Part? = null,
+        @Part("param") params: RequestBody
+    ):Response<Any>
+
     @POST("api/v1/keyword/list")
     @Headers("Content-Type: application/json")
     suspend fun keywordList(
@@ -176,6 +183,14 @@ interface RetrofitService {
     suspend fun updateKeyword(
         @Body params: Keyword
     ): Response<Any>
+
+    @POST("api/v1/member/keyword/insert")
+    @Headers("Content-Type: application/json")
+    suspend fun insertKeyword(
+        @Body params: KeywordList
+    ): Response<Any>
+
+
 }
 
 // 로그인 유저
@@ -219,6 +234,13 @@ data class Post(
     @SerializedName(value = "keyword_list") var keyword:ArrayList<Int>
 )
 
+data class Update(
+    @SerializedName(value = "idx_post") var idxPost: Int,
+    @SerializedName(value = "title") var title:String,
+    @SerializedName(value = "content") var content:String,
+    @SerializedName(value = "keyword_list") var keyword:ArrayList<Int>
+)
+
 data class Detail(
     @SerializedName(value = "idx_post") var idxPost: Int
 )
@@ -248,6 +270,10 @@ data class MessageSend(
 
 data class Keyword(
     @SerializedName(value = "keyword") var keyword: String
+)
+
+data class KeywordList(
+    @SerializedName(value = "keyword_list") var keywordList: String
 )
 
 

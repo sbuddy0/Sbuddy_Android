@@ -54,6 +54,15 @@ class PostItemAdapter(private val itemListener: PostItemClickListener) : ListAda
                 }
             }
 
+            // 삭제 버튼
+            binding.editButton.setOnClickListener{
+                val position = adapterPosition
+                if(position != RecyclerView.NO_POSITION){
+                    val item = getItem(position)
+                    itemListener.onReviseClicked(item)
+                }
+            }
+
             binding.clickLayout.setOnClickListener{
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {

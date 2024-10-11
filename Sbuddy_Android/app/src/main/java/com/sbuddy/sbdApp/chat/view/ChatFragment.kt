@@ -87,12 +87,16 @@ class ChatFragment : Fragment() {
     fun setObserve(){
         chatViewModel.receivedChats.observe(viewLifecycleOwner){ items ->
             ((binding.recyclerViewReceive.adapter) as ListAdapter<*, *>).submitList(items as List<Nothing>?)
-            Log.e("chatt", "receivedChats 바뀌ㅣㅁ : " + items)
-
+            if(chatViewModel.receivedChats.value!!.isNotEmpty()){
+                binding.contentLayout.setText(chatViewModel.receivedChats.value!!.get(0).content)
+            }
         }
 
         chatViewModel.sendChats.observe(viewLifecycleOwner){items ->
             ((binding.recyclerViewSend.adapter) as ListAdapter<*, *>).submitList(items as List<Nothing>?)
+            if(chatViewModel.sendChats.value != null && !chatViewModel.sendChats.value.isNullOrEmpty()){
+                binding.contentLayout.setText(chatViewModel.sendChats.value!!.get(0).content)
+            }
         }
 
         chatViewModel.buttonIsReceived.observe(viewLifecycleOwner){
@@ -100,7 +104,9 @@ class ChatFragment : Fragment() {
                 binding.receivedBtn.background = ContextCompat.getDrawable(requireContext(), R.drawable.button_rounded_corner_rectangle)
                 binding.receivedBtn.setTextColor(android.graphics.Color.WHITE)
                 binding.recyclerViewReceive.visibility = View.VISIBLE
-                binding.contentLayout.setText(chatViewModel.receivedChats.value?.get(0)?.content)
+                if(chatViewModel.sendChats.value != null && !chatViewModel.sendChats.value.isNullOrEmpty()){
+                    binding.contentLayout.setText(chatViewModel.receivedChats.value!!.get(0).content)
+                }
             }else{
                 binding.receivedBtn.background = ContextCompat.getDrawable(requireContext(), R.drawable.button_rounded_corner_rectangle_gray)
                 binding.receivedBtn.setTextColor(android.graphics.Color.DKGRAY)
@@ -113,7 +119,9 @@ class ChatFragment : Fragment() {
                 binding.sendBtn.background = ContextCompat.getDrawable(requireContext(), R.drawable.button_rounded_corner_rectangle)
                 binding.sendBtn.setTextColor(android.graphics.Color.WHITE)
                 binding.recyclerViewSend.visibility = View.VISIBLE
-                binding.contentLayout.setText(chatViewModel.receivedChats.value?.get(0)?.content)
+                if(chatViewModel.sendChats.value!!.isNotEmpty()){
+                    binding.contentLayout.setText(chatViewModel.sendChats.value!!.get(0).content)
+                }
             }else{
                 // 버튼 모양
                 binding.sendBtn.background = ContextCompat.getDrawable(requireContext(), R.drawable.button_rounded_corner_rectangle_gray)

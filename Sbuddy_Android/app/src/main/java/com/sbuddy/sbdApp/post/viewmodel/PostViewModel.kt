@@ -14,9 +14,11 @@ import com.sbuddy.sbdApp.http.Detail
 import com.sbuddy.sbdApp.http.Like
 import com.sbuddy.sbdApp.http.Post
 import com.sbuddy.sbdApp.http.Search
+import com.sbuddy.sbdApp.http.Update
 import com.sbuddy.sbdApp.post.listener.LoadListener
 import com.sbuddy.sbdApp.post.model.Keyword
 import com.sbuddy.sbdApp.post.model.PostDetail
+import com.sbuddy.sbdApp.post.model.PostDetailData
 import com.sbuddy.sbdApp.post.model.PostItem
 import com.sbuddy.sbdApp.post.model.PostRepository
 import com.sbuddy.sbdApp.post.model.PostResponse
@@ -41,10 +43,11 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     private var _subKeywords = MutableLiveData<List<Keyword>>()
 
     private var _selectedImageUri = MutableLiveData<Uri>()
-    private var _detail = MutableLiveData<PostDetail>()
+    private var _detail = MutableLiveData<PostDetailData>()
 
     private var _showNextActivity : MutableLiveData<Boolean> = MutableLiveData(false)
     private var _showToast : MutableLiveData<Boolean> = MutableLiveData(false)
+    private var _updateFinished: MutableLiveData<Boolean> = MutableLiveData(false)
     init {
         loadItems {}
         loadKeywords()
@@ -139,6 +142,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+
     fun titleCheck(idxKeyword: String) {
         val updatedList = _titleKeywords.value?.map {
             if (it.idx_keyword.toString() == idxKeyword) {
@@ -182,9 +186,11 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
                         keywords.add(_titleKeywords.value!!.get(i).idx_keyword)
                     }
                 }
-                for(i in 0 until _subKeywords.value!!.size){
-                    if(_subKeywords.value!!.get(i).isChecked){
-                        keywords.add(_subKeywords.value!!.get(i).idx_keyword)
+                if(!_subKeywords.value.isNullOrEmpty()){
+                    for(i in 0 until _subKeywords.value!!.size){
+                        if(_subKeywords.value!!.get(i).isChecked){
+                            keywords.add(_subKeywords.value!!.get(i).idx_keyword)
+                        }
                     }
                 }
                 val post = Post(title, content, keywords)
@@ -207,6 +213,45 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
 
     }
 
+    fun revise(file: File?, title: String, content: String, position: Int){
+        try {
+            viewModelScope.launch {
+                // 키워드 배열로 만들기
+                val keywords = ArrayList<Int>()
+
+                for(i in 0 until _titleKeywords.value!!.size){
+                    if(_titleKeywords.value!!.get(i).isChecked){
+                        keywords.add(_titleKeywords.value!!.get(i).idx_keyword)
+                    }
+                }
+                for(i in 0 until _subKeywords.value!!.size){
+                    if(_subKeywords.value!!.get(i).isChecked){
+                        keywords.add(_subKeywords.value!!.get(i).idx_keyword)
+                    }
+                }
+                val post = Update(position, title, content, keywords)
+
+                var part : MultipartBody.Part? = null
+                if(file != null){
+                    part = UploadUtil.prepareFilePart("file", file)
+                }
+                val response = repository.revise(part, post)
+                if(response.isSuccessful){
+                    val map = response.body() as Map<*, *>
+                    if(map.get("code") == "200"){
+                        Log.d("sbuddyy", "수정성공")
+                        loadItems{}
+                        _updateFinished.value = true
+                        return@launch
+                    }
+                }
+                _showToast.value = true
+            }
+        }catch (e: Exception){
+            _showToast.value = true
+        }
+    }
+
     fun setItem(idxPost: Int){
         for(i in 0 until _items.value!!.size){
             if(items.value!!.get(i).idx_post == idxPost){
@@ -221,7 +266,17 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
             val response = repository.detail(Detail(idxPost))
             if(response.isSuccessful){
                 Log.d("detaill",  "디테일 결과 : " + response.body())
-//                _detail.value = response.body()!!.data
+                _detail.value = response.body()!!.data.data
+
+                val updatedTitleKeywords = titleKeywords.value?.map { keyword ->
+                    keyword.copy(isChecked = detail.value!!.keyword.any { it.idx_keyword == keyword.idx_keyword })
+                }
+                titleKeywords.postValue(updatedTitleKeywords)
+
+                val updatedSubKeywords = subKeywords.value?.map { keyword ->
+                    keyword.copy(isChecked = detail.value!!.keyword.any { it.idx_keyword == keyword.idx_keyword })
+                }
+                subKeywords.postValue(updatedSubKeywords)
             }
         }
     }
@@ -256,7 +311,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     val selectedImageUri : MutableLiveData<Uri>
         get() = _selectedImageUri
 
-    val detail : MutableLiveData<PostDetail>
+    val detail : MutableLiveData<PostDetailData>
         get() = _detail
 
     val item : MutableLiveData<PostItem>
@@ -264,4 +319,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
 
     val showNextActivity : MutableLiveData<Boolean>
         get() = _showNextActivity
+
+    val updateFinished : MutableLiveData<Boolean>
+        get() = _updateFinished
 }

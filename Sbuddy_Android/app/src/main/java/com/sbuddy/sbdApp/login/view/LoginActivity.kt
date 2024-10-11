@@ -9,6 +9,7 @@ import com.sbuddy.sbdApp.post.view.MainActivity
 import com.sbuddy.sbdApp.R
 import com.sbuddy.sbdApp.databinding.ActivityLoginBinding
 import com.sbuddy.sbdApp.login.viewmodel.LoginViewModel
+import com.sbuddy.sbdApp.signup.view.KeywordSelectActivity
 import com.sbuddy.sbdApp.signup.view.SignUpActivity_01
 import com.sbuddy.sbdApp.util.ToastMessage
 
@@ -42,7 +43,7 @@ class LoginActivity : AppCompatActivity() {
         loginViewModel.showNextActivity.observe(this){
             if(it){
                 // 메인페이지 이동
-                startActivity(Intent(this, MainActivity::class.java))
+                startActivity(Intent(this, KeywordSelectActivity::class.java))
             }
         }
 

@@ -18,6 +18,7 @@ import com.sbuddy.sbdApp.post.adapter.PostItemAdapter
 import com.sbuddy.sbdApp.post.listener.PostItemClickListener
 import com.sbuddy.sbdApp.post.model.PostItem
 import com.sbuddy.sbdApp.post.viewmodel.PostViewModel
+import com.sbuddy.sbdApp.util.MetaData
 import com.sbuddy.sbdApp.util.UploadUtil
 
 class FeedFragment : Fragment(), PostItemClickListener {
@@ -60,9 +61,6 @@ class FeedFragment : Fragment(), PostItemClickListener {
             ((binding.recyclerView.adapter) as ListAdapter<*, *>).submitList(items as List<Nothing>?)
         })
 
-        postViewModel.detail.observe(viewLifecycleOwner){
-
-        }
 
         postViewModel.showToast.observe(viewLifecycleOwner, Observer { showToast ->
             if (showToast) {
@@ -83,8 +81,12 @@ class FeedFragment : Fragment(), PostItemClickListener {
         postViewModel.delete(postItem)
     }
 
-    override fun onReviseClicked(postItem: PostItem) {
-        TODO("Not yet implemented")
+    override fun onReviseClicked(idxMember : Int, position: Int) {
+        if(idxMember.toString() == MetaData.idxMember){
+            val intent = Intent(context, PostReviseActivity::class.java)
+            intent.putExtra("position", position)
+            startActivity(intent)
+        }
     }
 
     override fun onItemClicked(postItem: PostItem) {

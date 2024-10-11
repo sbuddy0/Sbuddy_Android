@@ -1,18 +1,25 @@
 package com.sbuddy.sbdApp.mypage.viewmodel
 
 import android.app.Application
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.sbuddy.sbdApp.http.Detail
 import com.sbuddy.sbdApp.http.Like
+import com.sbuddy.sbdApp.http.Update
 import com.sbuddy.sbdApp.mypage.model.MyLike
 import com.sbuddy.sbdApp.mypage.model.MypageData
 import com.sbuddy.sbdApp.mypage.model.MypageRepository
 import com.sbuddy.sbdApp.post.model.Keyword
+import com.sbuddy.sbdApp.post.model.PostDetailData
 import com.sbuddy.sbdApp.post.model.PostItem
 import com.sbuddy.sbdApp.util.MetaData
+import com.sbuddy.sbdApp.util.UploadUtil
 import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
+import java.io.File
 
 class MypageViewModel(application: Application) : AndroidViewModel(application) {
     private val repository: MypageRepository = MypageRepository()
@@ -32,6 +39,13 @@ class MypageViewModel(application: Application) : AndroidViewModel(application) 
 
     private var _keywordUpdateFinished = MutableLiveData<Boolean>(false)
 
+    private var _showNextActivity : MutableLiveData<Boolean> = MutableLiveData(false)
+    private var _showToast : MutableLiveData<Boolean> = MutableLiveData(false)
+    private var _updateFinished: MutableLiveData<Boolean> = MutableLiveData(false)
+
+
+    private var _selectedImageUri = MutableLiveData<Uri>()
+    private var _detail = MutableLiveData<PostDetailData>()
 
     fun myDetail(){
         viewModelScope.launch {
@@ -106,12 +120,52 @@ class MypageViewModel(application: Application) : AndroidViewModel(application) 
                 if(response.isSuccessful){
                     val map = response.body() as Map<*, *>
                     if(map.get("code") == "200"){
-                        myLikeList()
+                        myWriteList()
                         return@launch
                     }
 //                    _showToast.value = true
                 }
             }
+        }
+    }
+
+    fun revise(file: File?, title: String, content: String, position: Int){
+        try {
+            viewModelScope.launch {
+                // 키워드 배열로 만들기
+                val keywords = ArrayList<Int>()
+
+                for(i in 0 until _titleKeywords.value!!.size){
+                    if(_titleKeywords.value!!.get(i).isChecked){
+                        keywords.add(_titleKeywords.value!!.get(i).idx_keyword)
+                    }
+                }
+                for(i in 0 until _subKeywords.value!!.size){
+                    if(_subKeywords.value!!.get(i).isChecked){
+                        keywords.add(_subKeywords.value!!.get(i).idx_keyword)
+                    }
+                }
+                val post = Update(position, title, content, keywords)
+
+                var part : MultipartBody.Part? = null
+                if( file != null){
+                    part = UploadUtil.prepareFilePart("file", file)
+                }
+                val response = repository.revise(part, post)
+                if(response.isSuccessful){
+                    val map = response.body() as Map<*, *>
+                    if(map.get("code") == "200"){
+                        Log.d("sbuddyy", "수정성공")
+                        myLikeList()
+                        myWriteList()
+                        _updateFinished.value = true
+                        return@launch
+                    }
+                }
+//                _showToast.value = true
+            }
+        }catch (e: Exception){
+//            _showToast.value = true
         }
     }
 
@@ -138,7 +192,8 @@ class MypageViewModel(application: Application) : AndroidViewModel(application) 
                         val first = _titleKeywords.value!!.get(0)
                         first.isChecked = true
                         _subKeywords.value = grouped.get(first.idx_keyword.toString())
-                        Log.d("keywordd", "subKeyword : " + _subKeywords.value)
+                        Log.d("nowww", "_titleKeywords : " + _titleKeywords.value)
+                        Log.d("nowww", "subKeyword : " + _subKeywords.value)
 
                     }
                 }
@@ -182,16 +237,23 @@ class MypageViewModel(application: Application) : AndroidViewModel(application) 
         // 키워드 배열로 만들기
         val keywords = ArrayList<Int>()
 
+        Log.d("noww", "titleKeywords.value : " + titleKeywords.value)
+        Log.d("noww", "subKeywords.value : " + subKeywords.value)
+
         for(i in 0 until _titleKeywords.value!!.size){
             if(_titleKeywords.value!!.get(i).isChecked){
                 keywords.add(_titleKeywords.value!!.get(i).idx_keyword)
             }
         }
-        for(i in 0 until _subKeywords.value!!.size){
-            if(_subKeywords.value!!.get(i).isChecked){
-                keywords.add(_subKeywords.value!!.get(i).idx_keyword)
+
+        if(!_subKeywords.value.isNullOrEmpty()){
+            for(i in 0 until _subKeywords.value!!.size){
+                if(_subKeywords.value!!.get(i).isChecked){
+                    keywords.add(_subKeywords.value!!.get(i).idx_keyword)
+                }
             }
         }
+        Log.d("noww", "keywords: " + keywords)
 
         val str: String = keywords.joinToString(",")
 
@@ -202,6 +264,30 @@ class MypageViewModel(application: Application) : AndroidViewModel(application) 
             }
         }
 
+    }
+
+    fun setSelectedImageUri(uri : Uri){
+        _selectedImageUri.value = uri
+    }
+
+    fun detail(idxPost: Int){
+        viewModelScope.launch {
+            val response = repository.detail(Detail(idxPost))
+            if(response.isSuccessful){
+                Log.d("detaill",  "디테일 결과 : " + response.body())
+                _detail.value = response.body()!!.data.data
+
+                val updatedTitleKeywords = titleKeywords.value?.map { keyword ->
+                    keyword.copy(isChecked = detail.value!!.keyword.any { it.idx_keyword == keyword.idx_keyword })
+                }
+                titleKeywords.postValue(updatedTitleKeywords)
+
+                val updatedSubKeywords = subKeywords.value?.map { keyword ->
+                    keyword.copy(isChecked = detail.value!!.keyword.any { it.idx_keyword == keyword.idx_keyword })
+                }
+                subKeywords.postValue(updatedSubKeywords)
+            }
+        }
     }
 
     val mypageData: MutableLiveData<MypageData>
@@ -227,4 +313,19 @@ class MypageViewModel(application: Application) : AndroidViewModel(application) 
 
     val keywordUpdateFinished : MutableLiveData<Boolean>
         get() = _keywordUpdateFinished
+
+    val updateFinished : MutableLiveData<Boolean>
+        get() = _updateFinished
+
+    val selectedImageUri : MutableLiveData<Uri>
+        get() = _selectedImageUri
+
+    val showNextActivity : MutableLiveData<Boolean>
+        get() = _showNextActivity
+
+    val detail : MutableLiveData<PostDetailData>
+        get() = _detail
+
+    val showToast : MutableLiveData<Boolean>
+        get() = _showToast
 }

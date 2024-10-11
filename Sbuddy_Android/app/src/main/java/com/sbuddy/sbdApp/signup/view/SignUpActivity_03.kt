@@ -32,9 +32,10 @@ class SignUpActivity_03 : AppCompatActivity() {
 
         signUpViewModel.showNextActivity.observe(this){
             if(it){
+                finish()
                 val intent = Intent(this, LoginActivity::class.java)
-                intent.putExtra("email", signUpViewModel.email.value!!)
-                startActivity(intent)
+                intent.putExtra("email", signUpViewModel.email.value)
+                startActivity(Intent(this, LoginActivity::class.java))
             }
         }
 

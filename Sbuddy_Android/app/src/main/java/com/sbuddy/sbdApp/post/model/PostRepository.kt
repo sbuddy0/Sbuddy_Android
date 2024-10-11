@@ -6,6 +6,7 @@ import com.sbuddy.sbdApp.http.Post
 import com.sbuddy.sbdApp.http.RetrofitService
 import com.sbuddy.sbdApp.http.SbuddyRetrofitService
 import com.sbuddy.sbdApp.http.Search
+import com.sbuddy.sbdApp.http.Update
 import com.sbuddy.sbdApp.util.MetaData
 import com.sbuddy.sbdApp.util.UploadUtil
 import okhttp3.MultipartBody
@@ -20,4 +21,5 @@ class PostRepository {
     suspend fun post(img: MultipartBody.Part, post: Post) =  retrofitService.post(img, UploadUtil.createJsonRequestBody(post))
     suspend fun keywordList() = retrofitService.keywordList(mapOf())
     suspend fun detail(detail: Detail) = retrofitService.detail(detail)
+    suspend fun revise(img: MultipartBody.Part?, update: Update) = retrofitService.revise(img, UploadUtil.createJsonRequestBody(update))
 }

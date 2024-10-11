@@ -49,7 +49,6 @@ class MypageFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-
         mypageViewModel.myDetail()
         mypageViewModel.myLikeList()
         mypageViewModel.myWriteList()
@@ -76,7 +75,9 @@ class MypageFragment : Fragment() {
                 }
 
                 override fun onReviseClicked(myLike: MyLike) {
-                    TODO("Not yet implemented")
+                    val intent = Intent(context, MypageReviseActivity::class.java)
+                    intent.putExtra("position", myLike.idx_post)
+                    startActivity(intent)
                 }
 
                 override fun onItemClicked(myLike: MyLike) {
@@ -100,7 +101,9 @@ class MypageFragment : Fragment() {
                 }
 
                 override fun onReviseClicked(myLike: MyLike) {
-                    TODO("Not yet implemented")
+                    val intent = Intent(context, MypageReviseActivity::class.java)
+                    intent.putExtra("idx_post", myLike.idx_post)
+                    startActivity(intent)
                 }
 
                 override fun onItemClicked(myLike: MyLike) {

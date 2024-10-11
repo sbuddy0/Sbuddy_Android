@@ -22,6 +22,15 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".mypage.view.MypageReviseActivity"
+            android:exported="false" />
+        <activity
+            android:name=".post.view.PostReviseActivity"
+            android:exported="false" />
+        <activity
+            android:name=".signup.view.KeywordSelectActivity"
+            android:exported="false" />
+        <activity
             android:name=".mypage.view.KeywordActivity"
             android:exported="false" />
         <activity

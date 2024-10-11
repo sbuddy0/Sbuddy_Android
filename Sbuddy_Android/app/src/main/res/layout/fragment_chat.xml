@@ -119,7 +119,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:padding="20dp"
-                    android:text="@{viewModel.receivedChats.get(0).content}" />
+                    android:text="" />
 
             </LinearLayout>
         </ScrollView>
