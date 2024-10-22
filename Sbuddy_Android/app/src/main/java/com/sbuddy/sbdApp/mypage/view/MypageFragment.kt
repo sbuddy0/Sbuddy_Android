@@ -131,40 +131,10 @@ class MypageFragment : Fragment() {
         }
 
         mypageViewModel.buttonIsLike.observe(viewLifecycleOwner) {
-//            if (it) {
-//                binding.likeBtn.background = ContextCompat.getDrawable(
-//                    requireContext(),
-//                    R.drawable.button_rounded_corner_rectangle
-//                )
-//                binding.likeBtn.setTextColor(android.graphics.Color.WHITE)
-//                binding.likeRecyclerview.visibility = View.VISIBLE
-//            } else {
-//                binding.writeBtn.background = ContextCompat.getDrawable(
-//                    requireContext(),
-//                    R.drawable.button_rounded_corner_rectangle_gray
-//                )
-//                binding.writeBtn.setTextColor(android.graphics.Color.DKGRAY)
-//                binding.likeRecyclerview.visibility = View.GONE
-//            }
             updateLikeButtonUI(it)
         }
 
         mypageViewModel.buttonIsWrite.observe(viewLifecycleOwner) {
-//            if (it) {
-//                binding.writeBtn.background = ContextCompat.getDrawable(
-//                    requireContext(),
-//                    R.drawable.button_rounded_corner_rectangle
-//                )
-//                binding.writeBtn.setTextColor(android.graphics.Color.WHITE)
-//                binding.myWriteRecyclerview.visibility = View.VISIBLE
-//            } else {
-//                binding.likeBtn.background = ContextCompat.getDrawable(
-//                    requireContext(),
-//                    R.drawable.button_rounded_corner_rectangle_gray
-//                )
-//                binding.writeBtn.setTextColor(android.graphics.Color.DKGRAY)
-//                binding.myWriteRecyclerview.visibility = View.GONE
-//            }
             updateWriteButtonUI(it)
         }
     }

@@ -37,6 +37,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     private var grouped:Map<String?, List<Keyword>> = HashMap<String?, List<Keyword>>()
     private var _items = MutableLiveData<List<PostItem>>()
     private var _item = MutableLiveData<PostItem>()
+    private var _itemDate = MutableLiveData<String>()
 
     private var _keyWords = MutableLiveData<List<Keyword>>()
     private var _titleKeywords = MutableLiveData<List<Keyword>>()
@@ -256,6 +257,9 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         for(i in 0 until _items.value!!.size){
             if(items.value!!.get(i).idx_post == idxPost){
                 _item.value = items.value!!.get(i)
+                val input = item.value?.upload_date
+                val result = input?.substringBefore("T")
+                _itemDate.value = result
                 break
             }
         }
@@ -322,4 +326,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
 
     val updateFinished : MutableLiveData<Boolean>
         get() = _updateFinished
+
+    val itemDate: MutableLiveData<String>
+        get() = _itemDate
 }
