@@ -106,19 +106,49 @@ viewModelScope.launch {
 
 ## 실행 화면
 
-1. **회원 가입**
+1. **로그인 후 키워드 선택**
+   - 키워드 선택에 따라 피드 글이 정렬되며, 마이페이지에서 키워드를 수정할 수 있다.
 
-2. **로그인**
+<img src="https://github.com/user-attachments/assets/0c8ff300-df7d-4251-89cb-9c49148b030b" alt="로고" width="300"/>
+<img src="https://github.com/user-attachments/assets/83153ad9-6c5b-449a-bc96-4e6f1948e8bb" alt="로고" width="300"/>
 
-3. **글 작성**
+<br><br>
 
-4. **글 수정**
+2. **글 작성**
+   - 이미지와 게시글 키워드를 선택
+   - 키워드 검색할 때 검색한 키워드가 포함된 게시글이 조회된다.
+     
+<img src="https://github.com/user-attachments/assets/0b969c4c-a054-4d8d-86f5-870a90f0c4fe" alt="로고" width="300"/>
+<img src="https://github.com/user-attachments/assets/4a7ff55b-ce7d-476f-a27d-fdf0f50cba13" alt="로고" width="300"/>
 
-5. **글 삭제**
+<br><br>
 
-6. **검색**
+3. **글 수정, 삭제**
+<img src="https://github.com/user-attachments/assets/421a8be6-8a35-4efd-a89a-911f16fe472d" alt="로고" width="300"/>
+<img src="https://github.com/user-attachments/assets/3edf7e9d-4618-416e-bdc5-7107191055e8" alt="로고" width="300"/>
+<br><br>
 
-7. **채팅**
+5. **좋아요**
+<img src="https://github.com/user-attachments/assets/a93ba8be-9cc8-45fb-88df-7c6a33b0316d" alt="로고" width="300"/>
+<img src="https://github.com/user-attachments/assets/e477ba3d-696a-4de3-a996-449efd47b2e6" alt="로고" width="300"/>
+<br><br>
 
+6. **직접 검색, 키워드 검색**
+   - 검색 화면
+   - 직접 검색 결과, 키워드 검색 결과
+<img src="https://github.com/user-attachments/assets/13c255df-5eb4-43f8-865d-b881521b3606" alt="로고" width="300"/>
+<img src="https://github.com/user-attachments/assets/7a629e76-7ea1-4ddc-830b-512cfb10e59b" alt="로고" width="300"/>
+<img src="https://github.com/user-attachments/assets/dd7439e0-ba00-491c-95be-e1e3de7c4278" alt="로고" width="300"/>
+<br><br>
+   
+7. **쪽지**
+<img src="https://github.com/user-attachments/assets/c8fa9f22-5012-4f74-b7f1-13de3b108471" alt="로고" width="300"/>
+<img src="https://github.com/user-attachments/assets/9cfe5a68-d4cc-4b49-9d09-98f238bb1e33" alt="로고" width="300"/>
+
+<br><br>
 8. **마이페이지**
-  
+   - 내가 좋아요 한 글
+   - 내가 쓴 글
+<img src="https://github.com/user-attachments/assets/d491e1d2-9504-4d69-986d-3f2eb4588458" alt="로고" width="300"/>
+<img src="https://github.com/user-attachments/assets/13f993ce-8d0e-4785-87b5-0d7b658300d7" alt="로고" width="300"/>
+<img src="https://github.com/user-attachments/assets/11b21535-6c81-48ca-9214-3d4888132ae1" alt="로고" width="300"/>
