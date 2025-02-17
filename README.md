@@ -14,27 +14,88 @@
 * 미디어 파일 접근 : 외부 저장소에서 이미지 및 비디오를 읽기 위한 권한을 요청합니다.
 
 
-## 설치
-
-1. **레포지토리 클론**
-
-   ```bash
-   git clone https://github.com/yourusername/sbuddy-android.git
-
-2. **Gradle 동기화**
-
-   Android Studio에서 프로젝트를 연 후, Gradle을 동기화합니다.
-
-3. **빌드 및 실행**
-
-    앱을 빌드하고, 에뮬레이터나 실제 디바이스에서 실행할 수 있습니다.
-
-
 ## 기술 스택
 
 * 언어 : Kotlin
 * 안드로이드 SDK : Android 12 이상
 * 라이브러리 : RecyclerView, Retrofit, Glide 등
+
+
+## MVVM 패턴
+
+1. ViewModel을 사용하여 데이터 로직을 View에서 분리
+2. LiveData를 사용하여 UI 상태를 자동 업데이트
+
+```ruby
+class ChatFragment : Fragment() {
+    private lateinit var binding: FragmentChatBinding
+    private lateinit var chatViewModel: ChatViewModel
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentChatBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        chatViewModel = ViewModelProvider(this)[ChatViewModel::class.java]
+        binding.viewModel = chatViewModel  // ✅ DataBinding을 사용해 ViewModel과 UI 연결
+        binding.lifecycleOwner = this  // ✅ LiveData를 사용하기 위해 Lifecycle 설정
+        binding.fragment = this  // ✅ Fragment 내부 함수 바인딩
+
+        setReceivedRecyclerView()
+        setSendRecyclerView()
+        setObserve()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        chatViewModel.receivedChatList("R")  // ✅ ViewModel을 통해 데이터 요청
+        chatViewModel.sendChatList("S")
+    }
+}
+```
+
+
+## Coroutine 비동기 통신
+
+1. viewModelScope.launch {} 를 활용한 비동기 처리
+
+```ruby
+viewModelScope.launch {
+    val response = repository.messageList(type)
+    Log.w("chatt", "chatt response : " + response.body())
+    if(response.isSuccessful){
+        if(response.code() == 200){
+            _receivedChats.value = response.body()?.data?.list
+        }
+    }
+}
+
+```
+
+2. suspend 함수로 네트워크 요청 최적화
+
+```ruby
+suspend fun messageList(type: String) = retrofitService.messageList(Message(type))
+
+```
+
+3. Retrofit을 활용한 네트워크 요청 처리
+
+```ruby
+private val retrofitService: RetrofitService = SbuddyRetrofitService.instance()
+
+```
+
+4. ViewModelScope 활용으로 메모리 누수 방지
+
+```ruby
+viewModelScope.launch {
+    val response = repository.messageList(type)
+}
+```
 
 
 ## 개발 환경
